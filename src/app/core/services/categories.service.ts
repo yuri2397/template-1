@@ -22,6 +22,7 @@ export class CategoriesService extends ApiClientService {
     with_products_count?: boolean;
     with_children?: boolean;
     featured_only?: boolean;
+    limit?: number;
   } = {}): Observable<any> {
     return this.get('', params);
   }

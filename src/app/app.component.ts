@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { SimplebarAngularModule } from 'simplebar-angular';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -10,8 +11,9 @@ import { SimplebarAngularModule } from 'simplebar-angular';
     RouterOutlet,
     HeaderComponent,
     FooterComponent,
-    SimplebarAngularModule
+    SimplebarAngularModule,
   ],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

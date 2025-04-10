@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
@@ -8,7 +8,8 @@ import { ProductsService } from '../../../../core/services/products.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './home-product-feature.component.html',
-  styleUrl: './home-product-feature.component.scss'
+  styleUrl: './home-product-feature.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomeProductFeatureComponent implements OnInit {
   featuredProducts: any[] = [];
@@ -27,9 +28,11 @@ export class HomeProductFeatureComponent implements OnInit {
 
     this.productsService.getFeaturedProducts({
       limit: 8,
-      with_images: true
+      with_images: true,
+      with_category: true
     }).subscribe({
       next: (response) => {
+        console.log(response);
         this.featuredProducts = response.data;
         this.loading = false;
       },

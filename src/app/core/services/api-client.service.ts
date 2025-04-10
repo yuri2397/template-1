@@ -1,7 +1,9 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { inject } from "@angular/core";
-
+interface Params {
+  [key: string]: string | string[] | number | boolean | undefined;
+}
 export class ApiClientService {
   private readonly API_URL = environment.apiUrl;
   private _baseUrl = '';
@@ -23,8 +25,14 @@ export class ApiClientService {
    * CRUD
    */
 
-  get(endpoint: string, params: any = {}) {
-    return this.http.get(`${this.API_URL}/${this.baseUrl}/${endpoint}`, { params });
+  get(endpoint: string, params: any) {
+    return this.http.get(`${this.API_URL}/${this.baseUrl}/${endpoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      params: params
+    });
   }
 
   post(endpoint: string, data: any, params: any = {}) {
@@ -120,9 +128,5 @@ export class ApiClientService {
   setAppVersion(version: string) {
     this.setItem('appVersion', version);
   }
-
-
-
-
 
 }

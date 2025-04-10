@@ -24,6 +24,7 @@ export class ProductsService extends ApiClientService {
     with_images?: boolean;
     price_min?: number;
     price_max?: number;
+    with_category?: boolean;
   } = {}): Observable<any> {
     return this.get('featured', params);
   }
@@ -39,6 +40,18 @@ export class ProductsService extends ApiClientService {
     with_related?: boolean;
   } = {}): Observable<any> {
     return this.get(`${productId}`, params);
+  }
+
+  getProductsByCategorySlug(categorySlug: string, params: {
+    limit?: number;
+    page?: number;
+    sort_by?: string;
+    sort_direction?: 'asc' | 'desc';
+    with_discount?: boolean;
+    with_images?: boolean;
+    with_products_count?: boolean;
+  } = {}): Observable<any> {
+    return this.get(`category/${categorySlug}`, params);
   }
 
   /**
