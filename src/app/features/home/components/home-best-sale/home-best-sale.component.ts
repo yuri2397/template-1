@@ -19,54 +19,22 @@ export class HomeBestSaleComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
-  // CATEGORIES
-  categoryList: Category[] = [];
-  categoryLoading = false;
-  categoryError: string | null = null;
-  currentCategory: Category | null = null;
-
   constructor(
     private productsService: ProductsService,
-    private categoriesService: CategoriesService
   ) { }
 
   ngOnInit(): void {
-    this.getCategories();
+    this.loadBestSaleProducts();
   }
 
-  getCategories(): void {
-    this.categoryLoading = true;
-    this.categoriesService
-      .getCategories({
-        limit: 5,
-        with_products_count: true
-      })
-
-      .subscribe({
-        next: (categories) => {
-          console.log(categories);
-          this.categoryList = categories?.data || [];
-          this.categoryLoading = false;
-          if (this.categoryList.length > 0) {
-            this.currentCategory = this.categoryList[0];
-            this.loadBestSaleProducts();
-          }
-        },
-        error: (error) => {
-          this.categoryError = error;
-          this.categoryLoading = false;
-        }
-      });
-  }
 
   loadBestSaleProducts(): void {
     this.loading = true;
     this.error = null;
     this.productsService
-      .getProductsByCategorySlug(this.currentCategory!.slug!, {
-        limit: 5,
+      .getFeaturedProducts( {
+        limit: 4,
         with_images: true,
-        with_products_count: true
       }).subscribe({
         next: (products) => {
           this.bestSaleProducts = products?.data || [];

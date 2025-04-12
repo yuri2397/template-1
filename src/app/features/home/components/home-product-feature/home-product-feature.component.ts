@@ -2,11 +2,11 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
-
+import { ProductItemComponent } from '../../../../shared/components/product-item/product-item.component';
 @Component({
   selector: 'app-home-product-feature',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ProductItemComponent],
   templateUrl: './home-product-feature.component.html',
   styleUrl: './home-product-feature.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -44,19 +44,4 @@ export class HomeProductFeatureComponent implements OnInit {
     });
   }
 
-  // Méthode pour déterminer le prix à afficher (prix normal ou prix de vente)
-  getDisplayPrice(product: any): number {
-    return product.sale_price || product.price;
-  }
-
-  // Méthode pour vérifier si un produit est en promotion
-  hasDiscount(product: any): boolean {
-    return product.sale_price && product.sale_price < product.price;
-  }
-
-  // Méthode pour calculer le pourcentage de réduction
-  getDiscountPercentage(product: any): number {
-    if (!this.hasDiscount(product)) return 0;
-    return Math.round(((product.price - product.sale_price) / product.price) * 100);
-  }
 }

@@ -1,63 +1,55 @@
-<section class="container py-5 my-2 my-sm-3 mb-md-2 mt-lg-4 my-xl-5">
-  <h2 class="h3 text-center pb-1 pb-sm-2 pb-md-3 pb-lg-0 mb-4 mb-lg-5">Shop by lifestyle</h2>
-
-  <!-- Loading indicator -->
-  <div *ngIf="loading" class="text-center py-4">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
-
-  <!-- Error message -->
-  <div *ngIf="error" class="alert alert-danger">
-    {{ error }}
-  </div>
-
-  <!-- Swiper container -->
-  <div *ngIf="!loading && !error" class="swiper pb-lg-2" data-swiper="{
-          &quot;slidesPerView&quot;: 1,
-          &quot;spaceBetween&quot;: 24,
-          &quot;pagination&quot;: {
-            &quot;el&quot;: &quot;.swiper-pagination&quot;,
-            &quot;clickable&quot;: true
-          },
-          &quot;breakpoints&quot;: {
-            &quot;500&quot;: {
-              &quot;slidesPerView&quot;: 2
-            },
-            &quot;768&quot;: {
-              &quot;slidesPerView&quot;: 3
-            },
-            &quot;992&quot;: {
-              &quot;slidesPerView&quot;: 4
-            }
-          }
-        }">
-    <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5 gy-5 gy-md-5">
-
-      <!-- Category items - with Angular *ngFor -->
-      <div *ngFor="let category of categories" class="col">
-        <div class="position-relative d-inline-block text-dark-emphasis bg-warning-subtle rounded-circle p-5 mb-4">
-          <!-- This SVG can be made dynamic based on category type if needed -->
-          <img [src]="category.icon_url" alt="Category Image" class="img-fluid">
+<section class="mt-lg-2 container">
+  <div data-simplebar="init" data-simplebar-auto-hide="false" class="pt-xxl-3">
+    <div class="simplebar-wrapper" style="margin: 0px;">
+      <div class="simplebar-height-auto-observer-wrapper">
+        <div class="simplebar-height-auto-observer"></div>
+      </div>
+      <div class="simplebar-mask">
+        <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
+            style="height: auto; overflow: hidden;">
+            <div class="simplebar-content" style="padding: 0px;">
+              <div class="flex-nowrap flex-md-wrap justify-content-md-center g-0 gap-4 gap-md-0 row">
+                @for (category of categories; track category.id) {
+                <div class="mb-4 col-xl-2 col-lg-3 col-md-4 col">
+                  <div>
+                    <div class="category-card w-100 text-center px-1 px-lg-2 px-xxl-3" style="min-width: 165px;">
+                      <div class="category-card-body"><a class="d-block text-decoration-none" href="/shop/furniture">
+                          <div class="bg-body-tertiary rounded-pill mb-3 mx-auto" style="max-width: 164px;">
+                            <div class="ratio ratio-1x1 rounded-pill overflow-hidden"><img alt="Bedroom" loading="lazy"
+                                decoding="async" data-nimg="fill" class="object-fit-cover" sizes="328px"
+                                src="{{category.icon_url}}"
+                                style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
+                            </div>
+                          </div>
+                          <h3 class="category-card-title h6 text-truncate">{{category.name}}</h3>
+                        </a>
+                        <ul class="category-card-list nav w-100 flex-column gap-1 pt-3">
+                          <li class="w-100"><a
+                              class="nav-link justify-content-center min-w-0 w-100 fw-normal hover-effect-underline p-0 ">
+                              <span class="text-wrap">
+                                {{ category.description }}
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
         </div>
-        <h3 class="h5 mb-2 text-center">
-          <a class="animate-underline stretched-link" >
-            <span class="animate-target">{{ category.name }}</span>
-            <!-- [routerLink]="['/shop', category.slug]" -->
-          </a>
-        </h3>
-        <p class="fs-sm mb-0">{{ category.description || 'Explorer notre collection' }}</p>
       </div>
-
-      <!-- No categories message -->
-      <div *ngIf="categories.length === 0" class="text-center w-100 py-4">
-        <p>Aucune catégorie disponible pour le moment.</p>
-      </div>
-
+      <div class="simplebar-placeholder" style="width: 948px; height: 483px;"></div>
     </div>
-
-    <!-- Slider pagination (Bullets) -->
-    <div class="swiper-pagination position-static mt-3 mt-sm-4"></div>
+    <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+      <div class="simplebar-scrollbar" style="width: 0px; display: none; transform: translate3d(0px, 0px, 0px);"></div>
+    </div>
+    <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
+      <div class="simplebar-scrollbar" style="height: 0px; display: none;"></div>
+    </div>
   </div>
 </section>

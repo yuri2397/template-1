@@ -35,6 +35,7 @@
               "src/styles.scss"
             ],
             "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "public/assets/vendor/swiper/swiper-bundle.min.js",
               "public/assets/vendor/simplebar/simplebar.min.js",
               "public/assets/vendor/glightbox/glightbox.min.js",

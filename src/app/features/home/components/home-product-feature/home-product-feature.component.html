@@ -1,95 +1,11 @@
-<section class="container pb-5 mt-md-n2 mb-2 mb-sm-3 mb-md-4 mb-xl-5">
+<div class="pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5 container">
+  <h1 class="h3 position-relative pb-sm-2 pb-md-3" style="z-index: 1021;">Shop catalog</h1>
 
-  <!-- Heading -->
-  <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pb-md-4">
-    <h2 class="h3 mb-0">Produits populaires</h2>
-    <div class="nav ms-3">
-      <a class="nav-link animate-underline px-0 py-2" href="shop-catalog-furniture.html">
-        <span class="animate-target">Voir tous</span>
-        <i class="ci-chevron-right fs-base ms-1"></i>
-      </a>
+  <div class="gy-5 row row-cols-lg-4 row-cols-md-3 row-cols-2">
+    @for (product of featuredProducts; track product.id) {
+    <div class="col">
+      <app-product-item [product]="product"></app-product-item>
     </div>
+    }
   </div>
-
-  <!-- Loading state -->
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Chargement...</span>
-    </div>
-  </div>
-
-  <!-- Error message -->
-  <div *ngIf="error" class="alert alert-danger mt-4" role="alert">
-    {{ error }}
-  </div>
-
-  <!-- Product carousel -->
-  <div *ngIf="!loading && !error" class="position-relative pb-xxl-3">
-
-    <!-- External slider prev/next buttons visible on screens > 500px wide (sm breakpoint) -->
-    <button type="button"
-      class="popular-prev btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start position-absolute top-50 start-0 z-2 translate-middle mt-n5 d-none d-sm-inline-flex"
-      aria-label="Previous slide" tabindex="0" aria-controls="swiper-wrapper-c242d2232fd548ec">
-      <i class="ci-chevron-left fs-lg animate-target"></i>
-    </button>
-    <button type="button"
-      class="popular-next btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end position-absolute top-50 start-100 z-2 translate-middle mt-n5 d-none d-sm-inline-flex"
-      aria-label="Next slide" tabindex="0" aria-controls="swiper-wrapper-c242d2232fd548ec">
-      <i class="ci-chevron-right fs-lg animate-target"></i>
-    </button>
-    <br>
-    <!-- Slider -->
-      <swiper-container [slidesPerView]="4" [spaceBetween]="30" >
-        <swiper-slide *ngFor="let product of featuredProducts">
-          <!-- Item -->
-          <div  role="group" aria-label="2 / 6" data-swiper-slide-index="1">
-            <div class="animate-underline">
-              <a class="hover-effect-opacity ratio ratio-1x1 d-block mb-3">
-                <img [src]="product.thumbnail_thumb_url" class="hover-effect-target opacity-100" alt="Product"
-                  style="object-fit: cover; object-position: top;">
-                @if (product?.images?.length > 1) {
-                <img [src]="product.images[1].url"
-                  class="position-absolute top-0 start-0 hover-effect-target opacity-0 rounded-4" alt="Room"
-                  style="object-fit: cover; object-position: top;">
-                }
-              </a>
-              <div class="d-flex gap-2 mb-3">
-                <span class="badge text-bg-warning">{{ product.category.name }}</span>
-              </div>
-              <h3 class="mb-2">
-                <a class="d-block fs-sm fw-medium text-truncate">
-                  <span class="animate-target">{{ product.name }}</span>
-                </a>
-              </h3>
-              <div class="h6">{{ product.sale_price | currency:'F CFA':'symbol':'1.0-0':'fr-FR' }} <span
-                  class="text-muted text-decoration-line-through" *ngIf="product.sale_price < product.price">
-                  {{ product.price | currency:'F CFA':'symbol':'1.0-0':'fr-FR' }}
-                </span>
-              </div>
-              <div class="d-flex gap-2">
-                <button type="button" class="btn btn-dark w-100 rounded-pill px-3">Ajouter au panier</button>
-              </div>
-            </div>
-          </div>
-          <!-- No products message -->
-          <div *ngIf="featuredProducts.length === 0 && !loading && !error" class="text-center w-100 py-5">
-            <p>Aucun produit disponible pour le moment.</p>
-          </div>
-        </swiper-slide>
-      </swiper-container>
-  </div>
-
-  <!-- External slider prev/next buttons visible on screens < 500px wide (sm breakpoint) -->
-  <div class="d-flex justify-content-center gap-2 mt-1 pt-4 d-sm-none">
-    <button type="button"
-      class="popular-prev btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start me-1"
-      aria-label="Previous slide" tabindex="0" aria-controls="swiper-wrapper-c242d2232fd548ec">
-      <i class="ci-chevron-left fs-lg animate-target"></i>
-    </button>
-    <button type="button"
-      class="popular-next btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end"
-      aria-label="Next slide" tabindex="0" aria-controls="swiper-wrapper-c242d2232fd548ec">
-      <i class="ci-chevron-right fs-lg animate-target"></i>
-    </button>
-  </div>
-</section>
+</div>

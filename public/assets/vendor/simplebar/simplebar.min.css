@@ -10,9 +10,15 @@
 .simplebar-wrapper {
     overflow: hidden;
     width: inherit;
-    height: inherit;
+    height: 300px;
     max-width: inherit;
     max-height: inherit
+}
+
+@media (max-width: 768px) {
+    .simplebar-wrapper {
+        height: 500px;
+    }
 }
 
 .simplebar-mask {
