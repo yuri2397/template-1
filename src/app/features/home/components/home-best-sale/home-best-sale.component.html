@@ -1,5 +1,11 @@
 <section class="container pb-5 mb-sm-2 mb-md-3 mb-lg-4 mb-xl-5">
-  <h2 class="h3 pb-3">Découvrez nos produits en solde</h2>
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class="h3 pb-3">Découvrez nos produits en solde</h2>
+    <span class="animate-underline d-flex align-items-center gap-2 ">
+      <a routerLink="/catalog" class="nav-link animate-target fs-sm p-0 fw-semibold">Voir tous les produits</a>
+      <i class="ci-arrow-right"></i>
+    </span>
+  </div>
   <!-- Grid -->
   <div *ngIf="bestSaleProducts.length > 0" class="row g-4 g-sm-3 g-lg-4 mb-xxl-3">
     <div class="col-sm-5 d-flex flex-column gap-4 gap-sm-3 gap-lg-4">

@@ -4,6 +4,6 @@ export interface Category {
   slug:     string;
   icon_url: string;
   children: Category[];
-  
+  description?: string;
   collapsed: boolean;
 }

@@ -34,7 +34,7 @@ export class HomeCategoriesComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         this.categories = response.data;
-        console.clear();
+
         console.log(this.categories);
         this.loading = false;
       },
