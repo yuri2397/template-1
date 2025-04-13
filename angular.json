@@ -32,14 +32,24 @@
               }
             ],
             "styles": [
+              "public/assets/vendor/swiper/swiper-bundle.min.css",
+              "public/assets/vendor/simplebar/simplebar.min.css",
+              "public/assets/vendor/glightbox/glightbox.min.css",
+              "public/assets/vendor/nouislider/nouislider.min.css",
+              "public/assets/vendor/choices.js/choices.min.css",
               "src/styles.scss"
             ],
             "scripts": [
+              "public/assets/js/theme-switcher.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "public/assets/vendor/swiper/swiper-bundle.min.js",
               "public/assets/vendor/simplebar/simplebar.min.js",
               "public/assets/vendor/glightbox/glightbox.min.js",
-              "public/assets/js/theme.min.js"
+              "public/assets/vendor/list.js/list.min.js",
+              "public/assets/vendor/nouislider/nouislider.min.js",
+              "public/assets/vendor/choices.js/choices.min.js",
+              "public/assets/js/theme.min.js",
+              "public/assets/js/customizer.min.js"
             ]
           },
           "configurations": {

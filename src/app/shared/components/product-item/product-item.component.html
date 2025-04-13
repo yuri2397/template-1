@@ -2,7 +2,7 @@
   <article class="animate-underline">
 
     <a class="hover-effect-opacity position-relative d-block mb-3"
-      [routerLink]="['/shop/furniture/product', product.id]">
+      [routerLink]="['/catalog', product.id]">
       <div class="position-relative d-flex hover-effect-opacity overflow-hidden rounded-4 img-container">
         <img
           alt="{{product.name}}" loading="lazy" decoding="async"
@@ -11,7 +11,7 @@
           src="{{getProductImage1(product)}}" style="color: transparent;">
 
           <img
-          alt="{{product.name}}" loading="lazy" width="516" height="480" decoding="async"
+          alt="{{product.name}}" loading="lazy"  decoding="async"
           data-nimg="1" class="position-absolute top-0 start-0 hover-effect-target opacity-0"
           srcset="{{getProductImage2(product)}}"
           src="{{getProductImage2(product)}}"
@@ -22,6 +22,11 @@
     <h3 class="mb-2"><a class="d-block fs-sm fw-medium text-truncate" [routerLink]="['/shop/furniture/product', product.id]"><span
           class="animate-target">{{product.name}}</span></a></h3>
     <div class="h6 mb-0">{{product.price | currency:'XOF':true:'1.0-0'}} </div>
-    <div class="d-flex gap-2 pt-3"><button type="button" class="btn btn-dark w-100 rounded-pill px-3">Ajouter au panier</button></div>
+    <div class="d-flex gap-2 pt-3">
+      <button type="button" class="btn btn-sm btn-primary rounded-pill w-100">Ajouter au panier</button>
+      <button type="button" class="btn btn-icon btn-secondary rounded-circle animate-pulse" aria-label="Add to Wishlist">
+        <i class="ci-heart fs-base animate-target"></i>
+      </button>
+    </div>
   </article>
 </div>

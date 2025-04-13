@@ -83,7 +83,7 @@ export class ProductsService extends ApiClientService {
     limit?: number;
     page?: number;
     category_id?: string;
-    with_images?: boolean;
+    with_images?: number;
     price_min?: number;
     price_max?: number;
   } = {}): Observable<any> {
@@ -147,7 +147,7 @@ export class ProductsService extends ApiClientService {
    */
   getRelatedProducts(productId: string, params: {
     limit?: number;
-    with_images?: boolean;
+    with_images?: number;
   } = {}): Observable<any> {
     return this.get(`${productId}/related`, params);
   }

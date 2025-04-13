@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Category } from '../../../core/models/category.model';
 export interface Product {
   id:                  string;
   name:                string;
@@ -12,7 +13,7 @@ export interface Product {
   in_stock:            boolean;
   discount_percentage: number;
   category_id:         string;
-  category:            null;
+  category:            Category;
   is_active:           boolean;
   is_featured:         boolean;
   is_on_sale:          null;
