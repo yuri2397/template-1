@@ -22,7 +22,6 @@ export class CartComponent implements OnInit {
   isAuthenticated = false;
   cartItems: CartItem[] = [];
   cartTotal = 0;
-
   currentCart: any;
 
   constructor(
@@ -30,17 +29,16 @@ export class CartComponent implements OnInit {
     private _cartService: CartService
   ) {
     this.isAuthenticated = this._authService.isAuthenticated();
+
     this._cartService.cartItems$.subscribe((cart: CartItem[]) => {
-      console.clear();
-      console.log(cart);
       this.cartItems = cart;
     });
+
     this._cartService.cartTotal$.subscribe((total: number) => {
       this.cartTotal = total;
     });
+
     this._cartService.getCurrentCart().subscribe((cart: any) => {
-      console.clear();
-      console.log(cart);
       this.currentCart = cart;
     });
   }
@@ -49,49 +47,118 @@ export class CartComponent implements OnInit {
   }
 
   incrementQuantity(item: CartItem): void {
-    console.log(item);
-    this._cartService.updateCartItem(item.id, item.quantity + 1, item.product_id);
+    this._cartService.updateCartItem(item.id, item.quantity + 1, item.product_id).subscribe({
+      next: () => {
+        this.showMessage('Quantité mise à jour', 'success');
+      },
+      error: (error) => {
+        console.error('Erreur lors de la mise à jour', error);
+        this.showMessage('Erreur lors de la mise à jour', 'error');
+      }
+    });
   }
 
   decrementQuantity(item: CartItem): void {
-    console.log(item);
     if (item.quantity > 1) {
-      this._cartService.updateCartItem(item.id, item.quantity - 1, item.product_id);
+      this._cartService.updateCartItem(item.id, item.quantity - 1, item.product_id).subscribe({
+        next: () => {
+          this.showMessage('Quantité mise à jour', 'success');
+        },
+        error: (error) => {
+          console.error('Erreur lors de la mise à jour', error);
+          this.showMessage('Erreur lors de la mise à jour', 'error');
+        }
+      });
     } else if (item.quantity === 1) {
-      this._cartService.removeCartItem(item.id);
+      this.showRemoveConfirmModal(item);
     }
   }
 
-  // Afficher le modal de confirmation
   showRemoveConfirmModal(item: CartItem): void {
     this.selectedItem = item;
     this.showRemoveConfirmation = true;
   }
 
-  // Fermer le modal sans action
   cancelRemove(): void {
     this.showRemoveConfirmation = false;
+    this.selectedItem = null;
   }
 
-  // Confirmer la suppression
   confirmRemove(): void {
-    this.removeFromCart();
-    this.showRemoveConfirmation = false;
+    if (this.selectedItem) {
+      this._cartService.removeCartItem(this.selectedItem.id, this.selectedItem.product_id).subscribe({
+        next: () => {
+          this.showMessage(`${this.selectedItem?.product.name} retiré du panier`, 'success');
+          this.showRemoveConfirmation = false;
+          this.selectedItem = null;
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression', error);
+          this.showMessage('Erreur lors de la suppression', 'error');
+        }
+      });
+    }
   }
 
-  removeFromCart(): void {
-    if (this.selectedItem) {
-      this._cartService
-        .removeCartItem(this.selectedItem.id, this.selectedItem.product_id)
-        .subscribe(
-          () => {
-            // Suppression réussie
+  clearCart(): void {
+    this._cartService.clearCart().subscribe({
+      next: () => {
+        this.showMessage('Panier vidé avec succès', 'success');
+      },
+      error: (error) => {
+        console.error('Erreur lors du vidage du panier', error);
+        this.showMessage('Erreur lors du vidage du panier', 'error');
+      }
+    });
+  }
 
-          },
-          error => {
-            console.error('Erreur lors de la suppression du panier', error);
-          }
-        );
-    }
+  private showMessage(message: string, type: 'success' | 'error' | 'info' | 'warning'): void {
+    this.createToast(message, type);
+  }
+
+  private createToast(message: string, type: string): void {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    const colors = {
+      success: '#28a745',
+      error: '#dc3545',
+      info: '#17a2b8',
+      warning: '#ffc107'
+    };
+
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${colors[type as keyof typeof colors] || colors.info};
+      color: ${type === 'warning' ? '#212529' : 'white'};
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      z-index: 10000;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      max-width: 300px;
+      word-wrap: break-word;
+      font-size: 0.9rem;
+    `;
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.transform = 'translateX(0)';
+    }, 100);
+
+    setTimeout(() => {
+      toast.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        if (document.body.contains(toast)) {
+          document.body.removeChild(toast);
+        }
+      }, 300);
+    }, 4000);
   }
 }

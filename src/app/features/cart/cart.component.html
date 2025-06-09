@@ -1,236 +1,211 @@
-<nav class="container pt-3 my-3 my-md-4" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a routerLink="/">Accueil</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Panier</li>
-  </ol>
-</nav>
+<section class="cart-section">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-section">
+      <ol class="breadcrumb modern">
+        <li class="breadcrumb-item">
+          <a routerLink="/">
+            <i class="home-icon fa fa-home"></i>
+            <span>Accueil</span>
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          <span>Panier</span>
+        </li>
+      </ol>
+    </nav>
 
+    <!-- Cart Content -->
+    <div class="cart-content" *ngIf="cartTotal > 0">
+      <!-- Section Header -->
+      <div class="section-header">
+        <h1 class="section-title">
+          <span class="title-text">Votre</span>
+          <span class="title-accent">Panier</span>
+        </h1>
+        <p class="section-subtitle">
+          Vérifiez vos articles avant de procéder au paiement
+        </p>
+      </div>
 
-<!-- Items in the cart + Order summary -->
-<section *ngIf="cartTotal >= 0" class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
-  <h1 class="h3 mb-4">Votre panier</h1>
-  <div class="row">
-    <div class="col-lg-8">
-      <div class="pe-lg-2 pe-xl-3 me-xl-3">
+      <div class="cart-layout">
+        <!-- Cart Items -->
+        <div class="cart-items">
+          <!-- Delivery Options -->
+          <div class="delivery-options">
+            <div class="option-card active">
+              <div class="option-icon">
+                <i class="fa fa-truck"></i>
+              </div>
+              <div class="option-content">
+                <h3 class="option-title">Livraison à domicile</h3>
+                <p class="option-description">Tous les produits sont disponibles</p>
+              </div>
+            </div>
+          </div>
 
-        <!-- Delivery / pickup tabs -->
-        <ul class="nav nav-pills nav-justified flex-nowrap flex-column flex-sm-row pb-md-2 mb-4" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button type="button"
-              class="nav-link justify-content-start text-start p-3 px-md-4 px-lg-3 px-xl-4 rounded-4 active"
-              id="cart-delivery-tab" data-bs-toggle="pill" data-bs-target="#delivery" role="tab"
-              aria-controls="delivery" aria-selected="true">
-              <span
-                class="d-flex align-items-center justify-content-center flex-shrink-0 bg-success-subtle text-dark-emphasis rounded-circle"
-                style="width: 3rem; height: 3rem">
-                <i class="ci-shopping-bag fs-xl"></i>
-              </span>
-              <span class="ps-3">
-                <span class="h6 d-block mb-1">Livraison</span>
-                <span class="fs-xs fw-normal text-body lh-base">Tous les produits sont disponibles</span>
-              </span>
-            </button>
-          </li>
-          <!-- <li class="nav-item" role="presentation">
-            <button type="button"
-              class="nav-link justify-content-start text-start p-3 px-md-4 px-lg-3 px-xl-4 rounded-4"
-              id="cart-pickup-tab" data-bs-toggle="pill" data-bs-target="#pickup" role="tab" aria-controls="pickup"
-              aria-selected="false" tabindex="-1">
-              <span
-                class="d-flex align-items-center justify-content-center flex-shrink-0 bg-info-subtle text-dark-emphasis rounded-circle"
-                style="width: 3rem; height: 3rem">
-                <i class="ci-package fs-xl"></i>
-              </span>
-              <span class="ps-3">
-                <span class="h6 d-block mb-1">Retrait en magasin</span>
-                <span class="fs-xs fw-normal text-body lh-base">Tous les produits sont disponibles</span>
-              </span>
-            </button>
-          </li> -->
-        </ul>
+          <!-- Items List -->
+          <div class="items-list">
+            <div class="items-header">
+              <div class="header-col">Article</div>
+              <div class="header-col">Prix</div>
+              <div class="header-col">Quantité</div>
+              <div class="header-col">Total</div>
+              <div class="header-col">
+                <button type="button" class="clear-all-btn" (click)="clearCart()">
+                  Vider le panier
+                </button>
+              </div>
+            </div>
 
-
-        <!-- Table of items -->
-        <table class="table position-relative z-2 mb-4">
-          <thead>
-            <tr>
-              <th scope="col" class="fs-sm fw-normal py-3 ps-0"><span class="text-body">Article</span></th>
-              <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-xl-table-cell"><span
-                  class="text-body">Prix</span></th>
-              <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span
-                  class="text-body">Quantité</span></th>
-              <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span
-                  class="text-body">Total</span></th>
-              <th scope="col" class="py-0 px-0">
-                <div class="nav justify-content-end">
-                  <button type="button"
-                    class="nav-link d-inline-block text-decoration-underline text-nowrap py-3 px-0">Vider le
-                    panier</button>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="align-middle">
-
-            <!-- Item -->
-            <tr *ngFor="let item of cartItems">
-              <td class="py-3 ps-0">
-                <div class="d-flex align-items-center">
-                  <a class="position-relative flex-shrink-0" routerLink="/catalog/{{item.product.id}}">
-                    <span
-                      class="badge text-bg-danger position-absolute top-0 start-0" *ngIf="item.product.discount_percentage > 0">
-                      {{item.product.discount_percentage}}%</span>
-                    <img src="{{item.product.thumbnail_url}}" width="100" alt="Thumbnail" class="rounded-4">
-                  </a>
-                  <div class="ps-2 ps-xl-3">
-                    <h5 class="lh-sm mb-2">
-                      <a class="hover-effect-underline fs-sm fw-medium"
-                        routerLink="/catalog/{{item.product.id}}">{{item.product.name}}</a>
-                    </h5>
-                    <ul class="list-unstyled gap-1 fs-xs mb-0">
-
-                      <li class="d-xl-none">
-                        <span class="text-body-secondary">Prix:</span>
-                        <span class="text-dark-emphasis fw-medium">{{item.product.price | currency:'XOF':true:'1.0-0'}}
-                          <del *ngIf="item.product.sale_price !== item.product.price"
-                            class="text-body-tertiary fw-normal d-block">
-                            {{item.product.sale_price | currency:'XOF':true:'1.0-0'}}</del>
-                        </span>
-                      </li>
-                    </ul>
-                    <div class="count-input rounded-pill d-md-none mt-3">
-                      <button type="button" class="btn btn-sm btn-icon" data-decrement=""
-                        aria-label="Decrement quantity">
-                        <i class="ci-minus"></i>
-                      </button>
-                      <input type="number" class="form-control form-control-sm" value="3" readonly="">
-                      <button type="button" class="btn btn-sm btn-icon" data-increment=""
-                        aria-label="Increment quantity">
-                        <i class="ci-plus"></i>
-                      </button>
+            <div class="cart-item" *ngFor="let item of cartItems">
+              <div class="item-product">
+                <div class="product-image">
+                  <a routerLink="/catalog/{{item.product.id}}">
+                    <img [src]="item.product.thumbnail_url" [alt]="item.product.name" class="product-img">
+                    <div class="discount-badge" *ngIf="item.product.discount_percentage > 0">
+                      -{{item.product.discount_percentage}}%
                     </div>
+                  </a>
+                </div>
+                <div class="product-info">
+                  <h4 class="product-name">
+                    <a routerLink="/catalog/{{item.product.id}}">{{item.product.name}}</a>
+                  </h4>
+                  <div class="product-category" *ngIf="item.product.category">
+                    {{item.product.category.name}}
+                  </div>
+                  <div class="product-price mobile-only">
+                    <span class="current-price">{{item.product.sale_price | currency:'XOF':true:'1.0-0'}}</span>
+                    <span class="original-price" *ngIf="item.product.sale_price !== item.product.price">
+                      {{item.product.price | currency:'XOF':true:'1.0-0'}}
+                    </span>
                   </div>
                 </div>
-              </td>
-              <td class="h6 py-3 d-none d-xl-table-cell">
-                {{item.product.sale_price | currency:'XOF':true:'1.0-0'}}
-                <del *ngIf="item.product.sale_price !== item.product.price" class="text-body-tertiary fs-sm fw-normal">
+              </div>
+
+              <div class="item-price desktop-only">
+                <span class="current-price">{{item.product.sale_price | currency:'XOF':true:'1.0-0'}}</span>
+                <span class="original-price" *ngIf="item.product.sale_price !== item.product.price">
                   {{item.product.price | currency:'XOF':true:'1.0-0'}}
-                </del>
-              </td>
-              <td class="py-3 d-none d-md-table-cell">
-                <div class="count-input rounded-pill">
-                  <button type="button" class="btn btn-icon" data-decrement="" aria-label="Decrement quantity"
-                    (click)="decrementQuantity(item)">
-                    <i class="ci-minus"></i>
+                </span>
+              </div>
+
+              <div class="item-quantity">
+                <div class="quantity-control">
+                  <button type="button" class="quantity-btn minus" (click)="decrementQuantity(item)">
+                    <i class="fa fa-minus"></i>
                   </button>
-                  <input type="number" class="form-control" value="{{item.quantity}}" readonly="">
-                  <button type="button" class="btn btn-icon" data-increment="" aria-label="Increment quantity"
-                    (click)="incrementQuantity(item)">
-                    <i class="ci-plus"></i>
+                  <span class="quantity-value">{{item.quantity}}</span>
+                  <button type="button" class="quantity-btn plus" (click)="incrementQuantity(item)">
+                    <i class="fa fa-plus"></i>
                   </button>
                 </div>
-              </td>
-              <td class="h6 py-3 d-none d-md-table-cell">{{item.product.sale_price * item.quantity |
-                currency:'XOF':true:'1.0-0'}}
-                <del *ngIf="item.product.sale_price !== item.product.price" class="text-body-tertiary fs-sm fw-normal">
-                  {{item.product.price * item.quantity | currency:'XOF':true:'1.0-0'}}</del>
-              </td>
-              <td class="text-end py-3 px-0">
-                <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm"
-                  data-bs-title="Remove" aria-label="Remove from cart" (click)="showRemoveConfirmModal(item)"></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="nav position-relative z-2 mb-4 mb-lg-0">
-          <a class="nav-link animate-underline px-0" routerLink="/catalog">
-            <i class="ci-chevron-left fs-lg me-1"></i>
-            <span class="animate-target">Continuer vos achats</span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <aside class="col-lg-4" style="margin-top: -115px">
-      <div class="position-sticky top-0" style="padding-top: 115px">
-        <!-- <div class="alert alert-success text-dark-emphasis fs-sm border-0 rounded-4 mb-4" role="alert">
-          Félicitations 🎉 Vous avez ajouté plus de <span class="fw-semibold">50 XOF</span> à votre panier. <span
-            class="fw-semibold">Livraison est gratuite</span> pour vous!
-        </div> -->
-        <h2 class="h5 border-bottom pb-4 mb-4 me-3">Récapitulatif de la commande</h2>
-        <div class="tab-content">
-
-          <!-- Delivery tab -->
-          <div class="tab-pane active show" id="delivery" role="tabpanel" aria-labelledby="cart-delivery-tab">
-            <ul class="list-unstyled fs-sm gap-3 mb-0">
-              <li class="d-flex justify-content-between">
-                Sous-total ({{cartItems.length}} articles):
-                <span class="text-dark-emphasis fw-medium">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
-              </li>
-              <li class="d-flex justify-content-between">
-                Livraison:
-                <span class="text-danger fw-medium">0 FCFA</span>
-              </li>
-              <li class="d-flex justify-content-between">
-                Total:
-                <span class="text-dark-emphasis fw-medium">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
-              </li>
-            </ul>
-            <div class="border-top pt-4 mt-4">
-              <div class="d-flex justify-content-between mb-3">
-                <span class="fs-sm">Total:</span>
-                <span class="h5 mb-0">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
               </div>
-              <a class="btn btn-lg btn-primary w-100 rounded-pill" href="checkout-v2-delivery.html">
-                Passer à la caisse
-                <i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
-              </a>
+
+              <div class="item-total desktop-only">
+                <span class="total-price">{{item.product.sale_price * item.quantity | currency:'XOF':true:'1.0-0'}}</span>
+                <span class="original-total" *ngIf="item.product.sale_price !== item.product.price">
+                  {{item.product.price * item.quantity | currency:'XOF':true:'1.0-0'}}
+                </span>
+              </div>
+
+              <div class="item-actions">
+                <button type="button" class="remove-btn" (click)="showRemoveConfirmModal(item)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Pickup tab -->
-          <div class="tab-pane" id="pickup" role="tabpanel" aria-labelledby="cart-pickup-tab">
-            <ul class="list-unstyled fs-sm gap-3 mb-0">
-              <li class="d-flex justify-content-between">
-                Sous-total ({{cartItems.length}} articles):
-                <span class="text-dark-emphasis fw-medium">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
-              </li>
-              <li class="d-flex justify-content-between">
-                Livraison:
-                <span class="text-danger fw-medium">0 XOF</span>
-              </li>
-            </ul>
-            <div class="border-top pt-4 mt-4">
-              <div class="d-flex justify-content-between mb-3">
-                <span class="fs-sm">Total:</span>
-                <span class="h5 mb-0">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
+          <!-- Continue Shopping -->
+          <div class="continue-shopping">
+            <a routerLink="/catalog" class="continue-btn">
+              <i class="fa fa-chevron-left"></i>
+              <span>Continuer vos achats</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <div class="summary-card">
+            <h3 class="summary-title">Récapitulatif de la commande</h3>
+
+            <div class="summary-details">
+              <div class="summary-line">
+                <span class="line-label">Sous-total ({{cartItems.length}} articles):</span>
+                <span class="line-value">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
               </div>
-              <a class="btn btn-lg btn-primary w-100 rounded-pill" href="checkout-v2-pickup.html">
-                Passer à la caisse
-                <i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
-              </a>
+
+              <div class="summary-line">
+                <span class="line-label">Livraison:</span>
+                <span class="line-value free">Gratuite</span>
+              </div>
+
+              <div class="summary-line total-line">
+                <span class="line-label">Total:</span>
+                <span class="line-value total">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
+              </div>
+            </div>
+
+            <div class="checkout-section">
+              <div class="total-display">
+                <span class="total-label">Total:</span>
+                <span class="total-amount">{{cartTotal | currency:'XOF':true:'1.0-0'}}</span>
+              </div>
+
+              <button class="checkout-btn primary">
+                <span>Passer à la caisse</span>
+                <i class="fa fa-chevron-right"></i>
+              </button>
+
+              <div class="security-info">
+                <i class="fa fa-shield"></i>
+                <span>Paiement 100% sécurisé</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </aside>
-  </div>
-</section>
+    </div>
 
-<section *ngIf="cartTotal === 0">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h1>Votre panier est vide</h1>
+    <!-- Empty Cart -->
+    <div class="empty-cart" *ngIf="cartTotal === 0">
+      <div class="empty-content">
+        <div class="empty-icon">
+          <i class="fa fa-shopping-cart"></i>
+        </div>
+        <h2 class="empty-title">Votre panier est vide</h2>
+        <p class="empty-description">
+          Découvrez nos produits et ajoutez vos articles favoris à votre panier
+        </p>
+        <a routerLink="/catalog" class="shop-now-btn">
+          <span>Découvrir nos produits</span>
+          <i class="fa fa-arrow-right"></i>
+        </a>
       </div>
     </div>
   </div>
+
+  <!-- Background Decorations -->
+  <div class="background-decorations">
+    <div class="decoration-shape shape-1"></div>
+    <div class="decoration-shape shape-2"></div>
+    <div class="decoration-dots dots-1"></div>
+    <div class="decoration-dots dots-2"></div>
+  </div>
 </section>
 
-<!-- Modal de confirmation pour la suppression -->
-<app-confirmation-modal *ngIf="selectedItem" [show]="showRemoveConfirmation" title="Supprimer du panier"
-  subtitle="Êtes-vous sûr de vouloir retirer {{selectedItem.product.name}} de votre panier ?"
-  confirmButtonText="Supprimer" cancelButtonText="Annuler" confirmButtonClass="btn-danger" (confirm)="confirmRemove()"
+<!-- Confirmation Modal -->
+<app-confirmation-modal
+  *ngIf="selectedItem"
+  [show]="showRemoveConfirmation"
+  title="Supprimer du panier"
+  [subtitle]="'Êtes-vous sûr de vouloir retirer ' + selectedItem.product.name + ' de votre panier ?'"
+  confirmButtonText="Supprimer"
+  cancelButtonText="Annuler"
+  confirmButtonClass="btn-danger"
+  (confirm)="confirmRemove()"
   (cancel)="cancelRemove()">
 </app-confirmation-modal>

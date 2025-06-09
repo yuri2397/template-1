@@ -5,16 +5,12 @@ $accent-rose: #f48fb1;
 $text-dark: #2c3e50;
 $text-light: #ffffff;
 $text-muted: rgba(255, 255, 255, 0.7);
-$glass-bg: rgba(255, 255, 255, 0.1);
-$glass-border: rgba(255, 255, 255, 0.2);
 $shadow-light: rgba(233, 30, 99, 0.2);
 $shadow-dark: rgba(0, 0, 0, 0.1);
 
 // Mixins
-@mixin glass-effect {
-  background: $glass-bg;
-  backdrop-filter: blur(10px);
-  border: 1px solid $glass-border;
+@mixin gradient-bg($from, $to) {
+  background: linear-gradient(135deg, $from 0%, $to 100%);
 }
 
 @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
@@ -32,9 +28,64 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   &.home-page {
     .main-header {
       position: absolute;
+      top: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
       &:not(.scrolled) {
         background: transparent;
+        border-bottom: none;
+      }
+
+      &.scrolled {
+        position: fixed;
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+
+        .navbar-brand .logo {
+          filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(1352%) hue-rotate(315deg) brightness(91%) contrast(101%);
+        }
+
+        .nav-link {
+          color: $text-dark !important;
+
+          &:hover {
+            color: $primary-pink !important;
+          }
+
+          &.active {
+            color: $primary-pink !important;
+          }
+        }
+
+        .action-btn {
+          color: $text-dark;
+          border-color: rgba(44, 62, 80, 0.2);
+
+          &:hover {
+            background: rgba(233, 30, 99, 0.1);
+            color: $primary-pink;
+            border-color: $primary-pink;
+          }
+        }
+
+        .mobile-menu-toggle .hamburger-line {
+          background: $text-dark;
+        }
+
+        .dropdown-menu {
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid rgba(0, 0, 0, 0.1);
+
+          .category-link {
+            color: $text-dark;
+
+            &:hover {
+              background: rgba(233, 30, 99, 0.1);
+            }
+          }
+        }
       }
     }
   }
@@ -42,101 +93,13 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   &.normal-page {
     .main-header {
       position: fixed;
-      background: linear-gradient(135deg, $primary-pink 0%, $secondary-purple 100%);
+      top: 0;
+      @include gradient-bg($primary-pink, $secondary-purple);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
 
       &.scrolled {
-        @include glass-effect;
-        background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(156, 39, 176, 0.9) 100%);
-      }
-    }
-  }
-}
-
-// Top Bar
-.top-bar {
-  background: linear-gradient(135deg, $primary-pink 0%, $secondary-purple 100%);
-  padding: 0.5rem 0;
-  font-size: 0.875rem;
-  @include transition(all, 0.3s, ease);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1001;
-
-  :host.normal-page & {
-    position: relative;
-  }
-
-  &.scrolled {
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-
-  .top-bar-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .contact-info {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: $text-light;
-
-      .contact-label {
-        font-size: 0.8rem;
-        opacity: 0.8;
-      }
-
-      .contact-phone {
-        color: $text-light;
-        text-decoration: none;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        @include transition();
-
-        &:hover {
-          color: rgba(255, 255, 255, 0.8);
-        }
-
-        .phone-icon {
-          font-size: 0.9rem;
-        }
-      }
-    }
-
-    .promo-text {
-      color: $text-light;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      .fire-icon {
-        animation: pulse 2s infinite;
-      }
-    }
-
-    .auth-links {
-      .auth-link {
-        color: $text-light;
-        text-decoration: none;
-        font-size: 0.875rem;
-        @include transition();
-
-        &:hover {
-          color: rgba(255, 255, 255, 0.8);
-        }
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(0);
       }
     }
   }
@@ -144,43 +107,11 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
 
 // Main Header
 .main-header {
-  top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
+  padding: 1rem 0;
   @include transition(all, 0.3s, ease);
-
-  :host.home-page & {
-    position: absolute;
-
-    &:not(.scrolled) {
-      top: 2.5rem;
-      background: transparent;
-    }
-
-    &.scrolled {
-      position: fixed;
-      top: 0;
-      @include glass-effect;
-      background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(156, 39, 176, 0.9) 100%);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      padding: 0.75rem 0;
-    }
-  }
-
-  :host.normal-page & {
-    position: fixed;
-    top: 2.5rem;
-    background: linear-gradient(135deg, $primary-pink 0%, $secondary-purple 100%);
-
-    &.scrolled {
-      top: 0;
-      @include glass-effect;
-      background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(156, 39, 176, 0.9) 100%);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      padding: 0.75rem 0;
-    }
-  }
 
   .container {
     max-width: 1400px;
@@ -240,9 +171,8 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   text-decoration: none;
 
   .logo {
-    height: 40px;
+    height: 50px;
     width: auto;
-    filter: drop-shadow(0 2px 8px $shadow-light);
     @include transition(all, 0.3s, ease);
 
     &:hover {
@@ -276,7 +206,6 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
     }
 
     .menu-content {
@@ -285,7 +214,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
       right: 0;
       width: 320px;
       height: 100%;
-      background: linear-gradient(135deg, $primary-pink 0%, $secondary-purple 100%);
+      @include gradient-bg($primary-pink, $secondary-purple);
       padding: 2rem;
       transform: translateX(100%);
       @include transition(transform, 0.3s, ease);
@@ -379,7 +308,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   .nav-link {
     color: $text-light;
     text-decoration: none;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -394,7 +323,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
       &::after {
         content: '';
         position: absolute;
-        bottom: -2px;
+        bottom: -5px;
         left: 0;
         width: 0;
         height: 2px;
@@ -410,6 +339,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
 
     &:hover {
       color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
     }
 
     &.active {
@@ -436,7 +366,8 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     left: 0;
     min-width: 300px;
     max-width: 400px;
-    @include glass-effect;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     padding: 1.5rem;
     margin-top: 1rem;
@@ -444,7 +375,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     opacity: 0;
     transform: translateY(-10px);
     @include transition(all, 0.3s, ease);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   }
 
   @media (max-width: 991px) {
@@ -473,9 +404,15 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
           border-radius: 10px;
           @include transition();
 
+          @media (min-width: 992px) {
+            color: $text-dark;
+          }
+
           &:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(233, 30, 99, 0.1);
             transform: translateX(5px);
+            text-decoration: none;
+            color: $primary-pink;
           }
 
           .category-icon {
@@ -484,7 +421,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             overflow: hidden;
             @include flex-center;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(233, 30, 99, 0.1);
 
             .category-img {
               width: 100%;
@@ -522,6 +459,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
 
       &:hover {
         color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
       }
     }
 
@@ -537,6 +475,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
 
         &:hover {
           background: rgba(255, 255, 255, 0.1);
+          text-decoration: none;
         }
       }
     }
@@ -566,15 +505,12 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     @include transition();
     position: relative;
 
-    .scrolled &,
-    :host.normal-page & {
-      @include glass-effect;
-    }
-
     &:hover {
       background: rgba(255, 255, 255, 0.1);
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+      border-color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      color: $text-light;
     }
 
     &.cart-btn {
@@ -582,15 +518,16 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
         position: absolute;
         top: -5px;
         right: -5px;
-        background: $primary-pink;
-        color: $text-light;
+        background: $text-light;
+        color: $primary-pink;
         font-size: 0.75rem;
-        font-weight: 600;
+        font-weight: 700;
         min-width: 20px;
         height: 20px;
         border-radius: 10px;
         @include flex-center;
         animation: pulse 2s infinite;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
     }
   }
@@ -606,7 +543,8 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     right: 0;
     margin-top: 0.5rem;
     width: 300px;
-    @include glass-effect;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 25px;
     padding: 0.75rem;
     display: flex;
@@ -616,6 +554,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     visibility: hidden;
     transform: translateY(-10px);
     @include transition(all, 0.3s, ease);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 
     &.open {
       opacity: 1;
@@ -627,11 +566,11 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
       flex: 1;
       background: transparent;
       border: none;
-      color: $text-light;
+      color: $text-dark;
       font-size: 0.9rem;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(44, 62, 80, 0.6);
       }
 
       &:focus {
@@ -642,13 +581,13 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     .search-submit {
       background: transparent;
       border: none;
-      color: $text-light;
+      color: $primary-pink;
       cursor: pointer;
       padding: 0.25rem;
       @include transition();
 
       &:hover {
-        color: rgba(255, 255, 255, 0.8);
+        color: darken($primary-pink, 15%);
       }
     }
   }
@@ -675,16 +614,6 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     display: flex;
   }
 
-  .top-bar {
-    .promo-text {
-      display: none;
-    }
-
-    .top-bar-content {
-      justify-content: space-between;
-    }
-  }
-
   .navbar-actions {
     gap: 0.5rem;
 
@@ -700,18 +629,16 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 576px) {
-  .top-bar {
-    .contact-info .contact-label {
-      display: none;
+  .main-header {
+    padding: 0.75rem 0;
+
+    .container {
+      padding: 0 0.5rem;
     }
   }
 
-  .main-header .container {
-    padding: 0 0.5rem;
-  }
-
   .navbar-brand .logo {
-    height: 50px;
+    height: 45px;
   }
 
   .navbar-actions {

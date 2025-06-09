@@ -1,155 +1,198 @@
-<div aria-label="breadcrumb" class="pt-lg-2 my-3 my-lg-4 container">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-    <li class="breadcrumb-item active" aria-current="page">
-      Catalogue de produits
-    </li>
-  </ol>
-</div>
-<h1 class="h3 container pb-2 pb-md-3 pb-lg-4">Catalogue de produits</h1>
-<section class="pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5 container">
-  <div class="row">
-    <aside class="col-lg-3">
-      <div
-        class="pe-lg-4 offcanvas-lg offcanvas-start"
-        aria-labelledby="filtersSidebar"
-      >
-        <div class="py-3 offcanvas-header">
-          <h5 class="offcanvas-title" id="filtersSidebar">Filter products</h5>
-          <button type="button" class="btn-close" aria-label="Close"></button>
-        </div>
-        <div class="flex-column pt-2 py-lg-0 offcanvas-body">
-          <div class="pb-2 accordion">
-            <div
-              class="border-0 mb-3 accordion-item"
-              *ngFor="let category of categories"
-            >
-              <h4
-                class="h6 cursor-pointer p-0 m-0 accordion-button"
-                [class.collapsed]="!category.collapsed"
-                (click)="toggleCategory(category)"
-              >
-                <span
-                  class="d-flex align-items-center justify-content-center bg-body-secondary rounded-circle me-3"
-                  style="width: 56px; height: 56px"
-                >
-                  <span class="d-flex" style="width: 40px">
-                    <img
-                      alt="Image"
-                      loading="lazy"
-                      class="category-icon"
-                      decoding="async"
-                      src="{{ category.icon_url }}"
-                      style="color: transparent"
-                  /></span>
-                </span>
-                <span class="fs-sm">{{ category.name }}</span>
-              </h4>
-              <div
-                class="accordion-collapse"
-                [class.collapse]="!category.collapsed"
-              >
-                <div class="ps-4 pb-0 accordion-body">
-                  <ul
-                    class="flex-column gap-2 border-start px-4 pb-1 ms-1 mb-0 nav"
-                  >
-                    <li
-                      class="pb-1 ps-3 ms-1 nav-item"
-                      *ngFor="let child of category.children"
-                    >
-                      <a
-                        class="hover-effect-underline fw-normal p-0 nav-link"
-                        href="#"
-                        >{{ child.name }}</a
-                      >
-                    </li>
-                  </ul>
+<section class="catalog-section">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-section">
+      <ol class="breadcrumb modern">
+        <li class="breadcrumb-item">
+          <a routerLink="/">
+            <i class="home-icon fa fa-home"></i>
+            <span>Accueil</span>
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          <span>Catalogue de produits</span>
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Section Header -->
+    <div class="section-header">
+      <h1 class="section-title">
+        <span class="title-text">Notre</span>
+        <span class="title-accent">Catalogue</span>
+      </h1>
+      <p class="section-subtitle">
+        Découvrez notre collection complète de produits de qualité
+      </p>
+    </div>
+
+    <div class="catalog-layout">
+      <!-- Sidebar Filters -->
+      <aside class="filters-sidebar">
+        <div class="sidebar-content">
+          <!-- Mobile Filter Toggle -->
+          <button class="mobile-filter-toggle" [class.active]="isFiltersOpen" (click)="toggleFilters()">
+            <i class="fa fa-filter"></i>
+            <span>Filtres</span>
+          </button>
+
+          <!-- Filters Container -->
+          <div class="filters-container" [class.open]="isFiltersOpen">
+            <div class="filters-overlay" (click)="closeFilters()"></div>
+
+            <div class="filters-content">
+              <!-- Filters Header -->
+              <div class="filters-header">
+                <h3 class="filters-title">Filtrer par catégorie</h3>
+                <button class="filters-close" (click)="closeFilters()">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+
+              <!-- Categories -->
+              <div class="categories-filter">
+                <div class="category-group" *ngFor="let category of categories">
+                  <div class="category-header" [class.active]="category.collapsed" (click)="toggleCategory(category)">
+                    <div class="category-icon">
+                      <img [src]="category.icon_url" [alt]="category.name" class="category-img">
+                    </div>
+                    <span class="category-name">{{ category.name }}</span>
+                    <i class="expand-icon fa fa-chevron-down" [class.rotated]="category.collapsed"></i>
+                  </div>
+
+                  <div class="category-children" [class.expanded]="category.collapsed">
+                    <div class="child-category" *ngFor="let child of category.children" (click)="selectFilter(child)">
+                      <span class="child-name">{{ child.name }}</span>
+                      <span class="product-count" *ngIf="child.products_count">({{ child.products_count }})</span>
+                    </div>
+                  </div>
                 </div>
+              </div>
+
+              <!-- Clear Filters -->
+              <div class="clear-filters" *ngIf="selectedCategory">
+                <button class="clear-btn" (click)="clearFilters()">
+                  <i class="fa fa-times"></i>
+                  <span>Supprimer tous les filtres</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <button
-        type="button"
-        data-bs-theme="light"
-        class="fixed-bottom z-sticky w-100 border-0 border-top border-light border-opacity-10 rounded-0 pb-4 d-lg-none btn btn-dark btn-lg"
-      >
-        <i class="ci-filter fs-base me-2"></i>Filters
-      </button>
-    </aside>
-    <div class="col-lg-9">
-      <div class="d-flex flex-wrap gap-2 mb-4">
-        <button
-          *ngIf="selectedCategory"
-          type="button" class="btn btn-secondary btn-sm"
-          (click)="selectFilter(selectedCategory)"
-        >
-          {{selectedCategory.name}}
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm" *ngFor="let category of selectedCategory?.children" (click)="selectFilter(category)">
-          <i class="ci-close fs-sm ms-n1 me-1"></i>{{category.name}}
-        </button>
-        <button
-          *ngIf="selectedCategory"
-          type="button"
-          class="bg-transparent border-0 text-decoration-underline px-0 ms-2 btn btn-secondary btn-sm"
-          (click)="clearFilters()"
-        >
-          Supprimer les filtres
-        </button>
-      </div>
-      <div
-        class="g-4 row row-cols-xl-4 row-cols-lg-3 row-cols-md-4 row-cols-sm-3 row-cols-2"
-      >
-        @for (product of products; track $index) {
-        <app-product-item [product]="product"></app-product-item>
-        }
-      </div>
-      <div
-        class="toast-container bottom-0 end-0 position-fixed z-fixed p-3"
-      ></div>
-      <nav class="border-top mt-4 pt-3" aria-label="Shop pagination">
-        <ul class="pt-2 pt-md-3 pagination pagination-lg">
-          <li class="me-auto page-item disabled">
-            <span
-              class="page-link d-flex align-items-center h-100 fs-xl px-2"
-              aria-label="Previous page"
-              ><i class="ci-chevron-left"></i
-            ></span>
-          </li>
-          <li class="page-item active">
-            <span class="page-link" aria-current="page"
-              >1<span class="visually-hidden">(current)</span></span
-            >
-          </li>
-          <li class="page-item">
-            <a class="page-link" role="button" tabindex="0" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" role="button" tabindex="0" href="#">3</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" role="button" tabindex="0" href="#"
-              ><span aria-hidden="true">…</span
-              ><span class="visually-hidden">More</span></a
-            >
-          </li>
-          <li class="page-item">
-            <a class="page-link" role="button" tabindex="0" href="#">16</a>
-          </li>
-          <li class="ms-auto page-item">
-            <a
-              class="page-link d-flex align-items-center h-100 fs-xl px-2"
-              aria-label="Next page"
-              role="button"
-              tabindex="0"
-              href="#"
-              ><i class="ci-chevron-right"></i
-            ></a>
-          </li>
-        </ul>
-      </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="catalog-main">
+        <!-- Active Filters -->
+        <div class="active-filters" *ngIf="selectedCategory">
+          <div class="filters-chips">
+            <div class="filter-chip">
+              <span class="chip-label">{{ selectedCategory.name }}</span>
+              <button class="chip-remove" (click)="clearFilters()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+            <div class="filter-chip" *ngFor="let child of selectedCategory?.children" (click)="selectFilter(child)">
+              <span class="chip-label">{{ child.name }}</span>
+              <button class="chip-remove" (click)="clearFilters()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-section">
+          <!-- Loading State -->
+          <div class="products-grid loading" *ngIf="loadingProducts">
+            <div class="product-skeleton" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]">
+              <div class="skeleton-image"></div>
+              <div class="skeleton-content">
+                <div class="skeleton-category"></div>
+                <div class="skeleton-title"></div>
+                <div class="skeleton-description"></div>
+                <div class="skeleton-price"></div>
+                <div class="skeleton-button"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products -->
+          <div class="products-grid" *ngIf="!loadingProducts && products.length > 0">
+            <div class="product-wrapper" *ngFor="let product of products; let i = index" [attr.data-aos]="'fade-up'"
+              [attr.data-aos-delay]="i * 50">
+              <app-product-item [product]="product"></app-product-item>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" *ngIf="!loadingProducts && products.length === 0">
+            <div class="empty-content">
+              <div class="empty-icon">
+                <i class="fa fa-search"></i>
+              </div>
+              <h3 class="empty-title">Aucun produit trouvé</h3>
+              <p class="empty-description">
+                Aucun produit ne correspond à vos critères de recherche.
+                Essayez de modifier vos filtres ou explorez d'autres catégories.
+              </p>
+              <button class="reset-filters-btn" (click)="clearFilters()">
+                <span>Réinitialiser les filtres</span>
+                <i class="fa fa-refresh"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="pagination-section" *ngIf="!loadingProducts && products.length > 0">
+          <div class="pagination-info">
+            <span>Affichage de {{ products.length }} produits</span>
+          </div>
+
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage <= 1">
+              <button class="page-link prev" (click)="goToPage(currentPage - 1)" [disabled]="currentPage <= 1">
+                <i class="fa fa-chevron-left"></i>
+              </button>
+            </li>
+
+            <li class="page-item active">
+              <span class="page-link current">{{ currentPage }}</span>
+            </li>
+
+            <li class="page-item">
+              <button class="page-link" (click)="goToPage(2)">2</button>
+            </li>
+
+            <li class="page-item">
+              <button class="page-link" (click)="goToPage(3)">3</button>
+            </li>
+
+            <li class="page-item">
+              <span class="page-link dots">…</span>
+            </li>
+
+            <li class="page-item">
+              <button class="page-link" (click)="goToPage(16)">16</button>
+            </li>
+
+            <li class="page-item">
+              <button class="page-link next" (click)="goToPage(currentPage + 1)">
+                <i class="fa fa-chevron-right"></i>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </main>
     </div>
+  </div>
+
+  <!-- Background Decorations -->
+  <div class="background-decorations">
+    <div class="decoration-shape shape-1"></div>
+    <div class="decoration-shape shape-2"></div>
+    <div class="decoration-dots dots-1"></div>
+    <div class="decoration-dots dots-2"></div>
   </div>
 </section>
