@@ -32,11 +32,6 @@
               }
             ],
             "styles": [
-              "public/assets/vendor/swiper/swiper-bundle.min.css",
-              "public/assets/vendor/simplebar/simplebar.min.css",
-              "public/assets/vendor/glightbox/glightbox.min.css",
-              "public/assets/vendor/nouislider/nouislider.min.css",
-              "public/assets/vendor/choices.js/choices.min.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -64,6 +59,12 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kB",
                   "maximumError": "4kB"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.development.ts",
+                  "with": "src/environments/environment.production.ts"
                 }
               ],
               "outputHashing": "all"

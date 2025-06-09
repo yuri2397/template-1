@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../environments/environment.development";
 import { inject } from "@angular/core";
 interface Params {
   [key: string]: string | string[] | number | boolean | undefined;

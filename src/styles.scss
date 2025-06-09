@@ -1,1 +1,75 @@
+/* Global Layout Styles - À ajouter dans src/styles.css */
 
+/* Reset et base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Layout principal */
+.app-layout {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Page avec header */
+.page-with-header {
+  position: relative;
+}
+
+/* Hero section specific */
+.hero-page {
+  .hero-section {
+    margin-top: 0;
+    padding-top: 120px;
+  }
+
+  app-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+}
+
+/* Pages normales (sans hero) */
+.normal-page {
+  padding-top: 120px;
+  /* Espace pour le header fixe */
+
+  app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .hero-page .hero-section {
+    padding-top: 100px;
+  }
+
+  .normal-page {
+    padding-top: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-page .hero-section {
+    padding-top: 80px;
+  }
+
+  .normal-page {
+    padding-top: 80px;
+  }
+}

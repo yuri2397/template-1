@@ -1,187 +1,150 @@
-<div class="container position-relative d-flex justify-content-between z-1 py-3">
-  <div class="nav animate-underline">
-    <span class="text-secondary-emphasis fs-xs me-1">Contactez-nous <span class="d-none d-sm-inline">24/7</span></span>
-    <a class="nav-link animate-target fs-xs fw-semibold p-0" href="tel:+15053753082">+221 77 893 91 12</a>
+<!-- Top bar -->
+<div class="top-bar" [class.scrolled]="isScrolled">
+  <div class="container">
+    <div class="top-bar-content">
+      <div class="contact-info">
+        <span class="contact-label">Contactez-nous</span>
+        <a href="tel:+221778939112" class="contact-phone">
+          <i class="phone-icon">📞</i>
+          +221 77 893 91 12
+        </a>
+      </div>
+      <div class="promo-text">
+        <span class="fire-icon">🔥</span>
+        <span>The Biggest Sale Ever 50% Off</span>
+      </div>
+      <div class="auth-links">
+        <a href="#" class="auth-link">Se connecter</a>
+      </div>
+    </div>
   </div>
-  <a class="text-secondary-emphasis fs-xs text-decoration-none d-none d-md-inline" href="#!">🔥 The Biggest Sale Ever
-    50% Off</a>
-  <ul class="nav gap-4">
-    <!-- <li class="animate-underline">
-      <a class="nav-link animate-target fs-xs p-0" href="#!">Creer un compte</a>
-    </li> -->
-    <li class="animate-underline">
-      <a class="nav-link animate-target fs-xs p-0" href="#!">Se connecter</a>
-    </li>
-  </ul>
 </div>
-<header class="navbar-sticky sticky-top z-fixed px-2 container" style="top: -1px">
-  <nav class="flex-nowrap bg-body rounded-pill shadow ps-0 mx-1 navbar navbar-expand-lg navbar-light">
-    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark rounded-pill z-0 d-none d-block-dark"></div>
-    <button aria-controls="navbarNav" type="button" aria-label="Toggle navigation" class="ms-3 navbar-toggler "
-      (click)="isMenuOpen = !isMenuOpen">
-      <span class="navbar-toggler-icon"></span></button><a
-      class="navbar-brand position-relative z-1 ms-4 ms-sm-5 ms-lg-4 me-2 me-sm-0 me-lg-3" href="/">
-      <img src="assets/img/difawma-hijab-logo.jpg" alt="logo" class="img-fluid" style="width: 100px" />
-    </a>
-    <div id="navbarNav" class="offcanvas offcanvas-start" aria-labelledby="navbarNavLabel" [class.show]="isMenuOpen">
-      <div class="py-3 offcanvas-header">
-        <div class="offcanvas-title h5" id="navbarNavLabel">
-          <img src="assets/img/difawma-hijab-logo.jpg" alt="logo" class="img-fluid" style="width: 100px" />
-        </div>
-        <button type="button" class="btn-close" aria-label="Close" (click)="isMenuOpen = false"></button>
-      </div>
-      <!-- NAVBAR -->
-      <div class="navbar align-items-start bg-transparent shadow-none pt-3 pb-4 py-lg-0 mx-lg-auto offcanvas-body">
-        <ul class="position-relative w-100 navbar-nav">
-          <!-- ACCUEIL -->
-          <li class="me-lg-n1 me-xl-0 nav-item">
-            <a routerLink="/" class="fs-sm nav-link">Accueil</a>
-          </li>
-          <!-- CATEGORIES -->
-          <li class="nav-item me-lg-n1 me-xl-0 dropdown" (mouseenter)="isCategoriesDropdownOpen = true"
-            (mouseleave)="isCategoriesDropdownOpen = false" [class.show]="isCategoriesDropdownOpen">
-            <a aria-expanded="false" role="button" class="with-focus fs-sm dropdown-toggle nav-link" tabindex="0"
-              href="#">Categories</a>
-            <ul data-bs-popper="static" class="dropdown-menu w-100" [class.show]="isCategoriesDropdownOpen">
-              @for (category of categories; track category.id) {
-              <li class="my-1">
-                <div class="d-flex align-items-center gap-2">
-                  <img [src]="category.icon_url" alt="category" class="category-icon">
-                  <a [routerLink]="['/catalog']" [queryParams]="{
-                    category_id: category.id,
-                    category_slug: category.slug,
-                    page: 1,
-                    limit: 10,
-                    sort: 'name',
-                    order: 'asc'
-                  }" aria-expanded="false" class="dropdown-item" role="button" tabindex="0" href="#">{{ category.name
-                    }}</a>
-                </div>
-              </li>
-              }
-            </ul>
-          </li>
-          <li class="nav-item me-lg-n1 me-xl-0 dropdown">
-            <a id="react-aria3636491207-«rk0»" aria-expanded="false" role="button"
-              class="with-focus fs-sm dropdown-toggle nav-link" tabindex="0" href="#">Pages</a>
-            <ul aria-labelledby="react-aria3636491207-«rk0»" data-bs-popper="static" class="dropdown-menu">
-              <li class="dropend">
-                <a id="react-aria3636491207-«rkb»" aria-expanded="false" data-rr-ui-dropdown-item=""
-                  class="with-focus dropdown-toggle dropdown-item" role="button" tabindex="0" href="#">About</a>
-                <ul aria-labelledby="react-aria3636491207-«rkb»" data-bs-popper="static" class="dropdown-menu">
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/about">About v.1</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/about/v2">About v.2</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="dropend">
-                <a id="react-aria3636491207-«rkc»" aria-expanded="false" data-rr-ui-dropdown-item=""
-                  class="with-focus dropdown-toggle dropdown-item" role="button" tabindex="0" href="#">Blog</a>
-                <ul aria-labelledby="react-aria3636491207-«rkc»" data-bs-popper="static" class="dropdown-menu">
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/blog">Grid View v.1</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/blog/grid-v2">Grid View v.2</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/blog/list">List View</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/blog/single-post-v1">Single Post v.1</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/blog/single-post-v2">Single Post v.2</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="dropend">
-                <a id="react-aria3636491207-«rkd»" aria-expanded="false" data-rr-ui-dropdown-item=""
-                  class="with-focus dropdown-toggle dropdown-item" role="button" tabindex="0" href="#">Contact</a>
-                <ul aria-labelledby="react-aria3636491207-«rkd»" data-bs-popper="static" class="dropdown-menu">
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/contact">Contact v.1</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/contact/v2">Contact v.2</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/contact/v3">Contact v.3</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="dropend">
-                <a id="react-aria3636491207-«rke»" aria-expanded="false" data-rr-ui-dropdown-item=""
-                  class="with-focus dropdown-toggle dropdown-item" role="button" tabindex="0" href="#">Help Center</a>
-                <ul aria-labelledby="react-aria3636491207-«rke»" data-bs-popper="static" class="dropdown-menu">
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/help">Help Topics v.1</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/help/v2">Help Topics v.2</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/help/article">Help Single Article
-                      v.1</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/help/v2/article">Help Single Article
-                      v.2</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="dropend">
-                <a id="react-aria3636491207-«rkf»" aria-expanded="false" data-rr-ui-dropdown-item=""
-                  class="with-focus dropdown-toggle dropdown-item" role="button" tabindex="0" href="#">404 Error</a>
-                <ul aria-labelledby="react-aria3636491207-«rkf»" data-bs-popper="static" class="dropdown-menu">
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/404">404 Electronics</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/404/fashion">404 Fashion</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/404/furniture">404 Furniture</a>
-                  </li>
-                  <li>
-                    <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/404/grocery">404 Grocery</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a data-rr-ui-dropdown-item="" class="dropdown-item" href="/terms">Terms &amp; Conditions</a>
-              </li>
-            </ul>
-          </li>
-          <!-- <li class="me-lg-n1 me-xl-0 nav-item"><a data-rr-ui-event-key="/docs/installation" class="fs-sm nav-link"
-              href="/docs/installation">Docs</a></li>
-          <li class="me-lg-n1 me-xl-0 nav-item"><a data-rr-ui-event-key="/docs/typography" class="fs-sm nav-link"
-              href="/docs/typography">Components</a></li> -->
-        </ul>
-      </div>
-    </div>
-    <div class="d-flex gap-sm-1 position-relative z-1">
-      <!-- <div class="dropdown">
-        <button type="button" aria-expanded="false"
-          class="btn-icon rounded-circle animate-scale btn-lg fs-lg bg-transparent border-0  btn btn-secondary">
-          <i class="ci-sun animate-target"></i>
-        </button>
-      </div> -->
-      <button type="button" aria-label="Shopping cart" routerLink="/cart"
-        class="btn-icon fs-lg position-relative border-0 rounded-circle animate-scale me-2 btn btn-outline-secondary">
-        <i class="ci-shopping-cart animate-target"></i>
-        <span class="position-absolute top-0 start-100 fs-xs rounded-pill ms-n3 z-2 badge rounded-pill bg-primary"
-          style="min-width: 18px; --cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em;">{{ cartItemsCount }}</span>
+
+<!-- Main Navigation -->
+<header class="main-header" [class.scrolled]="isScrolled" #navbar>
+  <div class="container">
+    <nav class="navbar">
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" [class.active]="isMenuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
       </button>
-      <div class="dropdown">
-        <button type="button" aria-expanded="false" aria-label="Toggle search bar"
-          class="btn-icon fs-lg rounded-circle animate-scale  btn btn-secondary">
-          <i class="ci-search animate-target"></i>
-        </button>
+
+      <!-- Logo -->
+      <a routerLink="/" class="navbar-brand">
+        <img src="assets/img/difawma-hijab-logo.jpg" alt="Dijanna Hijab" class="logo">
+      </a>
+
+      <!-- Navigation Menu -->
+      <div class="navbar-menu" [class.open]="isMenuOpen">
+        <div class="menu-overlay" (click)="closeMenu()"></div>
+
+        <div class="menu-content">
+          <!-- Mobile Header -->
+          <div class="mobile-header">
+            <img src="assets/img/difawma-hijab-logo.jpg" alt="Dijanna Hijab" class="mobile-logo">
+            <button class="menu-close" (click)="closeMenu()">
+              <i class="close-icon">×</i>
+            </button>
+          </div>
+
+          <!-- Menu Items -->
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                (click)="closeMenu()">
+                <span>Accueil</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a routerLink="/catalog" class="nav-link" routerLinkActive="active" (click)="closeMenu()">
+                <span>Nos produits</span>
+              </a>
+            </li>
+
+            <li class="nav-item dropdown" [class.open]="isCategoriesDropdownOpen"
+              (mouseenter)="isCategoriesDropdownOpen = true" (mouseleave)="isCategoriesDropdownOpen = false">
+              <a href="#" class="nav-link dropdown-toggle">
+                <span>Catégories</span>
+                <i class="dropdown-arrow">▼</i>
+              </a>
+
+              <div class="dropdown-menu">
+                <div class="dropdown-content">
+                  <div class="categories-grid">
+                    <div *ngFor="let category of categories" class="category-item">
+                      <a [routerLink]="['/catalog']" [queryParams]="{
+                           category_id: category.id,
+                           category_slug: category.slug,
+                           page: 1,
+                           limit: 10,
+                           sort: 'name',
+                           order: 'asc'
+                         }" class="category-link" (click)="closeMenu()">
+                        <div class="category-icon">
+                          <img [src]="category.icon_url" [alt]="category.name" class="category-img">
+                        </div>
+                        <span class="category-name">{{ category.name }}</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a routerLink="/about" class="nav-link" routerLinkActive="active" (click)="closeMenu()">
+                <span>À propos</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a routerLink="/contact" class="nav-link" routerLinkActive="active" (click)="closeMenu()">
+                <span>Contact</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Mobile Contact Info -->
+          <div class="mobile-contact">
+            <a href="tel:+221778939112" class="mobile-phone">
+              <i class="phone-icon">📞</i>
+              +221 77 893 91 12
+            </a>
+            <div class="mobile-auth">
+              <a href="#" class="auth-btn">Se connecter</a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </nav>
+
+      <!-- Right Side Actions -->
+      <div class="navbar-actions">
+        <!-- Search -->
+        <div class="search-container" [class.open]="isSearchOpen">
+          <button class="action-btn search-toggle" (click)="toggleSearch()" aria-label="Toggle search">
+            <i class="search-icon">🔍</i>
+          </button>
+
+          <div class="search-box" [class.open]="isSearchOpen">
+            <input type="text" class="search-input" placeholder="Rechercher des produits..." (blur)="closeSearch()">
+            <button class="search-submit" aria-label="Search">
+              <i class="search-icon">🔍</i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cart -->
+        <a routerLink="/cart" class="action-btn cart-btn">
+          <i class="cart-icon">🛒</i>
+          <span class="cart-count" *ngIf="cartItemsCount > 0">
+            {{ cartItemsCount }}
+          </span>
+        </a>
+      </div>
+    </nav>
+  </div>
 </header>

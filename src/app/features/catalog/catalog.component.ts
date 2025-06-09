@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Category } from '../../core/models/category.model';
 import { ProductsService } from '../../core/services/products.service';
 import { Product, ProductItemComponent } from '../../shared/components/product-item/product-item.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-catalog',
   standalone: true,
@@ -21,7 +21,7 @@ export class CatalogComponent implements OnInit {
   categories: Category[] = [];
   loadingCategories: boolean = false;
   currentCategoryId: string | null = null;
-
+  selectedCategory: Category | null = null;
   //products
   products: Product[] = [];
   loadingProducts: boolean = false;
@@ -31,13 +31,16 @@ export class CatalogComponent implements OnInit {
     search: '',
     with_images: 1,
     with_category: 1,
+    freshness: 1,
   }
 
   constructor(
     private route: ActivatedRoute,
     private categoriesService: CategoriesService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private router: Router
   ) { }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['category_id']) {
@@ -45,9 +48,10 @@ export class CatalogComponent implements OnInit {
       } else {
         delete this.productParams['category_id'];
       }
-      this.getCategories();
       this.getProducts();
     });
+    this.getCategories();
+
   }
 
   getProducts() {
@@ -93,6 +97,24 @@ export class CatalogComponent implements OnInit {
       c.collapsed = false;
     });
     category.collapsed = !category.collapsed;
+    this.selectedCategory = category;
+    this.productParams['category_id'] = category.id;
+    this._refreshProducts();
   }
 
+  selectFilter(category: any) {
+    this.productParams['category_id'] = category.id;
+    this._refreshProducts();
+  }
+
+  _refreshProducts() {
+    this.productParams['freshness'] = Math.random();
+    this.router.navigate(['/catalog'], { queryParams: this.productParams, queryParamsHandling: 'merge', replaceUrl: true, });
+  }
+
+  clearFilters() {
+    this.productParams['category_id'] = null;
+    this.selectedCategory = null;
+    this._refreshProducts();
+  }
 }

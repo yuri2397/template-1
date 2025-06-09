@@ -14,6 +14,7 @@ export const routes: Routes = [
     resolve: {
       product: detailsProductResolver
     },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
     loadComponent: () => import('./features/details-product/details-product.component').then(m => m.DetailsProductComponent)
   },
   {
