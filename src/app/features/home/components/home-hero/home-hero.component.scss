@@ -243,13 +243,14 @@ $shadow-dark: rgba(0, 0, 0, 0.3);
       .main-title {
         font-size: clamp(2.5rem, 5vw, 4rem);
         font-weight: 700;
-        line-height: 1.2;
+        font-weight: bold;
+        line-height: 1.1;
         margin-bottom: 2rem;
 
         .title-line {
           display: block;
           color: $text-light;
-          text-shadow: 2px 2px 4px $shadow-dark;
+          // text-shadow: 2px 2px 4px $shadow-dark;
           animation: slideIn 0.8s ease-out forwards;
           opacity: 0;
 

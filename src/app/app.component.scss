@@ -1,0 +1,36 @@
+.app-layout {
+  position: relative;
+  min-height: 100vh;
+
+  &.hero-page {
+    .content-wrapper {
+      padding-top: 0;
+    }
+  }
+
+  &.normal-page {
+    .content-wrapper {
+      padding-top: 120px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .app-layout {
+    &.normal-page {
+      .content-wrapper {
+        padding-top: 100px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .app-layout {
+    &.normal-page {
+      .content-wrapper {
+        padding-top: 80px;
+      }
+    }
+  }
+}

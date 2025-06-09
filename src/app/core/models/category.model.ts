@@ -6,4 +6,5 @@ export interface Category {
   children: Category[];
   description?: string;
   collapsed: boolean;
+  products_count?: number;
 }

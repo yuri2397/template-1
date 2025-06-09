@@ -1,9 +1,9 @@
-import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
-import { ProductsService } from '../../core/services/products.service';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CategoriesService } from '../../core/services/categories.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -16,18 +16,18 @@ import { CartService } from '../../core/services/cart.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild('navbar', { static: true }) navbar!: ElementRef;
-
   categories: any[] = [];
   isCategoriesDropdownOpen = false;
   isMenuOpen = false;
   cartItemsCount = 0;
   isScrolled = false;
   isSearchOpen = false;
+  isHomePage = false;
 
   constructor(
     private _categoriesService: CategoriesService,
-    private _cartService: CartService
+    private _cartService: CartService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +43,14 @@ export class HeaderComponent implements OnInit {
     this._cartService.cartItemsCount$.subscribe((cartItemsCount: number) => {
       this.cartItemsCount = cartItemsCount;
     });
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.isHomePage = event.url === '/' || event.url === '';
+    });
+
+    this.isHomePage = this.router.url === '/' || this.router.url === '';
   }
 
   @HostListener('window:scroll', ['$event'])

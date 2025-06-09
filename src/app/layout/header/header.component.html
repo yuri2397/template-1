@@ -1,16 +1,16 @@
 <!-- Top bar -->
-<div class="top-bar" [class.scrolled]="isScrolled">
+<!-- <div class="top-bar" [class.scrolled]="isScrolled">
   <div class="container">
     <div class="top-bar-content">
       <div class="contact-info">
         <span class="contact-label">Contactez-nous</span>
         <a href="tel:+221778939112" class="contact-phone">
-          <i class="phone-icon">📞</i>
+          <i class="fa fa-phone"></i>
           +221 77 893 91 12
         </a>
       </div>
       <div class="promo-text">
-        <span class="fire-icon">🔥</span>
+        <span class="fa fa-fire"></span>
         <span>The Biggest Sale Ever 50% Off</span>
       </div>
       <div class="auth-links">
@@ -18,10 +18,10 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Main Navigation -->
-<header class="main-header" [class.scrolled]="isScrolled" #navbar>
+<header class="main-header" [class.scrolled]="isScrolled">
   <div class="container">
     <nav class="navbar">
 
@@ -46,7 +46,7 @@
           <div class="mobile-header">
             <img src="assets/img/difawma-hijab-logo.jpg" alt="Dijanna Hijab" class="mobile-logo">
             <button class="menu-close" (click)="closeMenu()">
-              <i class="close-icon">×</i>
+              <i class="fa fa-times"></i>
             </button>
           </div>
 
@@ -111,7 +111,7 @@
           <!-- Mobile Contact Info -->
           <div class="mobile-contact">
             <a href="tel:+221778939112" class="mobile-phone">
-              <i class="phone-icon">📞</i>
+              <i class="fa fa-phone"></i>
               +221 77 893 91 12
             </a>
             <div class="mobile-auth">
@@ -126,20 +126,20 @@
         <!-- Search -->
         <div class="search-container" [class.open]="isSearchOpen">
           <button class="action-btn search-toggle" (click)="toggleSearch()" aria-label="Toggle search">
-            <i class="search-icon">🔍</i>
+            <i class="fa fa-search"></i>
           </button>
 
           <div class="search-box" [class.open]="isSearchOpen">
             <input type="text" class="search-input" placeholder="Rechercher des produits..." (blur)="closeSearch()">
             <button class="search-submit" aria-label="Search">
-              <i class="search-icon">🔍</i>
+              <i class="fa fa-search"></i>
             </button>
           </div>
         </div>
 
         <!-- Cart -->
         <a routerLink="/cart" class="action-btn cart-btn">
-          <i class="cart-icon">🛒</i>
+          <i class="fa fa-shopping-cart"></i>
           <span class="cart-count" *ngIf="cartItemsCount > 0">
             {{ cartItemsCount }}
           </span>

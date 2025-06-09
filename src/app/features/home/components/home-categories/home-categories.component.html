@@ -1,55 +1,116 @@
-<section class="mt-lg-2 container">
-  <div data-simplebar="init" data-simplebar-auto-hide="false" class="pt-xxl-3">
-    <div class="simplebar-wrapper" style="margin: 0px;">
-      <div class="simplebar-height-auto-observer-wrapper">
-        <div class="simplebar-height-auto-observer"></div>
+<section class="categories-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <div class="header-content">
+        <h2 class="section-title">
+          <span class="title-text">Nos Catégories</span>
+          <span class="title-accent">Populaires</span>
+        </h2>
+        <p class="section-subtitle">
+          Découvrez notre large gamme de produits soigneusement sélectionnés pour votre style de vie moderne
+        </p>
       </div>
-      <div class="simplebar-mask">
-        <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
-            style="height: auto; overflow: hidden;">
-            <div class="simplebar-content" style="padding: 0px;">
-              <div class="flex-nowrap flex-md-wrap justify-content-md-center g-0 gap-4 gap-md-0 row">
-                @for (category of categories; track category.id) {
-                <div class="mb-4 col-xl-2 col-lg-3 col-md-4 col">
-                  <div>
-                    <div class="category-card w-100 text-center px-1 px-lg-2 px-xxl-3" style="min-width: 165px;">
-                      <div class="category-card-body"><a class="d-block text-decoration-none" href="/shop/furniture">
-                          <div class="bg-body-tertiary rounded-pill mb-3 mx-auto" style="max-width: 164px;">
-                            <div class="ratio ratio-1x1 rounded-pill overflow-hidden"><img alt="Bedroom" loading="lazy"
-                                decoding="async" data-nimg="fill" class="object-fit-cover" sizes="328px"
-                                src="{{category.icon_url}}"
-                                style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
-                            </div>
-                          </div>
-                          <h3 class="category-card-title h6 text-truncate">{{category.name}}</h3>
-                        </a>
-                        <ul class="category-card-list nav w-100 flex-column gap-1 pt-3">
-                          <li class="w-100"><a
-                              class="nav-link justify-content-center min-w-0 w-100 fw-normal hover-effect-underline p-0 ">
-                              <span class="text-wrap">
-                                {{ category?.description }}
-                              </span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                }
-              </div>
+      <div class="header-action">
+        <a routerLink="/catalog" class="view-all-btn">
+          <span>Voir tout</span>
+          <i class="arrow-icon">→</i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="categories-grid" *ngIf="!loading && categories.length > 0">
+      <div *ngFor="let category of categories; let i = index" class="category-card" [class.featured]="i === 0"
+        [attr.data-aos]="'fade-up'" [attr.data-aos-delay]="i * 100">
+
+        <a [routerLink]="['/catalog']" [queryParams]="{
+             category_id: category.id,
+             category_slug: category.slug,
+             page: 1,
+             limit: 10,
+             sort: 'name',
+             order: 'asc'
+           }" class="category-link">
+
+          <!-- Category Image -->
+          <div class="category-image-container">
+            <div class="image-wrapper">
+              <img [src]="category.icon_url" [alt]="category.name" class="category-image" loading="lazy">
+              <div class="image-overlay"></div>
+            </div>
+
+            <!-- Product Count Badge -->
+            <div class="product-count-badge" *ngIf="category.products_count">
+              <span>{{ category.products_count }} produits</span>
             </div>
           </div>
+
+          <!-- Category Content -->
+          <div class="category-content">
+            <h3 class="category-name">{{ category.name }}</h3>
+            <p class="category-description" *ngIf="category.description">
+              {{ category.description }}
+            </p>
+
+            <!-- Explore Button -->
+            <div class="explore-btn">
+              <span class="btn-text">Explorer</span>
+              <i class="btn-icon">→</i>
+            </div>
+          </div>
+
+          <!-- Hover Effect Elements -->
+          <div class="hover-elements">
+            <div class="glow-effect"></div>
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-grid" *ngIf="loading">
+      <div class="category-skeleton" *ngFor="let item of [1,2,3,4]">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-content">
+          <div class="skeleton-title"></div>
+          <div class="skeleton-text"></div>
+          <div class="skeleton-button"></div>
         </div>
       </div>
-      <div class="simplebar-placeholder" style="width: 948px; height: 483px;"></div>
     </div>
-    <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
-      <div class="simplebar-scrollbar" style="width: 0px; display: none; transform: translate3d(0px, 0px, 0px);"></div>
+
+    <!-- Error State -->
+    <div class="error-state" *ngIf="error && !loading">
+      <div class="error-content">
+        <div class="error-icon">⚠️</div>
+        <h3>Impossible de charger les catégories</h3>
+        <p>{{ error }}</p>
+        <button class="retry-btn" (click)="loadCategories()">
+          <span>Réessayer</span>
+          <i class="retry-icon">🔄</i>
+        </button>
+      </div>
     </div>
-    <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
-      <div class="simplebar-scrollbar" style="height: 0px; display: none;"></div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!loading && !error && categories.length === 0">
+      <div class="empty-content">
+        <div class="empty-icon">📦</div>
+        <h3>Aucune catégorie disponible</h3>
+        <p>Les catégories seront bientôt disponibles</p>
+      </div>
     </div>
+  </div>
+
+  <!-- Background Decorations -->
+  <div class="background-decorations">
+    <div class="decoration-circle circle-1"></div>
+    <div class="decoration-circle circle-2"></div>
+    <div class="decoration-line line-1"></div>
+    <div class="decoration-line line-2"></div>
   </div>
 </section>

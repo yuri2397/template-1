@@ -1,6 +1,6 @@
-<div class="app-layout hero-page">
-  <app-header></app-header>
-  <!-- Page content -->
+<div class="app-layout" [class.hero-page]="isHomePage" [class.normal-page]="!isHomePage">
+  <app-header [class.home-page]="isHomePage" [class.normal-page]="!isHomePage"></app-header>
+
   <main class="content-wrapper">
     <router-outlet></router-outlet>
   </main>

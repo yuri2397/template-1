@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { filter } from 'rxjs/operators';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -13,10 +14,22 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     FooterComponent,
     SimplebarAngularModule,
   ],
-
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'template-1';
+  isHomePage = false;
+
+  constructor(private router: Router) { }
+
+  ngOnInit() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.isHomePage = event.url === '/' || event.url === '';
+    });
+
+    this.isHomePage = this.router.url === '/' || this.router.url === '';
+  }
 }

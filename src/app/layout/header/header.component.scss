@@ -27,6 +27,31 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   justify-content: center;
 }
 
+// Host component styling
+:host {
+  &.home-page {
+    .main-header {
+      position: absolute;
+
+      &:not(.scrolled) {
+        background: transparent;
+      }
+    }
+  }
+
+  &.normal-page {
+    .main-header {
+      position: fixed;
+      background: linear-gradient(135deg, $primary-pink 0%, $secondary-purple 100%);
+
+      &.scrolled {
+        @include glass-effect;
+        background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(156, 39, 176, 0.9) 100%);
+      }
+    }
+  }
+}
+
 // Top Bar
 .top-bar {
   background: linear-gradient(135deg, $primary-pink 0%, $secondary-purple 100%);
@@ -38,6 +63,10 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   left: 0;
   right: 0;
   z-index: 1001;
+
+  :host.normal-page & {
+    position: relative;
+  }
 
   &.scrolled {
     transform: translateY(-100%);
@@ -115,25 +144,42 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
 
 // Main Header
 .main-header {
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 1rem 0;
   @include transition(all, 0.3s, ease);
 
-  &:not(.scrolled) {
-    top: 2.5rem; // Space for top bar
-    background: transparent;
+  :host.home-page & {
+    position: absolute;
+
+    &:not(.scrolled) {
+      top: 2.5rem;
+      background: transparent;
+    }
+
+    &.scrolled {
+      position: fixed;
+      top: 0;
+      @include glass-effect;
+      background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(156, 39, 176, 0.9) 100%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 0.75rem 0;
+    }
   }
 
-  &.scrolled {
+  :host.normal-page & {
     position: fixed;
-    top: 0;
-    @include glass-effect;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 0.75rem 0;
+    top: 2.5rem;
+    background: linear-gradient(135deg, $primary-pink 0%, $secondary-purple 100%);
+
+    &.scrolled {
+      top: 0;
+      @include glass-effect;
+      background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(156, 39, 176, 0.9) 100%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 0.75rem 0;
+    }
   }
 
   .container {
@@ -194,7 +240,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   text-decoration: none;
 
   .logo {
-    height: 60px;
+    height: 40px;
     width: auto;
     filter: drop-shadow(0 2px 8px $shadow-light);
     @include transition(all, 0.3s, ease);
@@ -333,7 +379,7 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
   .nav-link {
     color: $text-light;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -520,7 +566,8 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
     @include transition();
     position: relative;
 
-    .scrolled & {
+    .scrolled &,
+    :host.normal-page & {
       @include glass-effect;
     }
 

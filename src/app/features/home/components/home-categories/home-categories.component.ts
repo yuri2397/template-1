@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CategoriesService } from '../../../../core/services/categories.service';
 import { Category } from '../../../../core/models/category.model';
+import { finalize } from 'rxjs/operators';
+
 @Component({
   selector: 'app-home-categories',
   standalone: true,
@@ -30,19 +32,23 @@ export class HomeCategoriesComponent implements OnInit {
 
     this.categoriesService.getCategories({
       with_products_count: true,
-      limit: 4
-    }).subscribe({
+      featured_only: true,
+      limit: 6
+    }).pipe(
+      finalize(() => this.loading = false)
+    ).subscribe({
       next: (response) => {
-        this.categories = response.data;
-
-        console.log(this.categories);
-        this.loading = false;
+        this.categories = response.data || [];
+        console.log('Categories loaded:', this.categories);
       },
       error: (err) => {
         console.error('Error loading categories:', err);
         this.error = 'Impossible de charger les catégories. Veuillez réessayer plus tard.';
-        this.loading = false;
       }
     });
+  }
+
+  retryLoad(): void {
+    this.loadCategories();
   }
 }
