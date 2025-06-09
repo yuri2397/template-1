@@ -1,35 +1,229 @@
-<section class="container pb-5 mb-sm-2 mb-md-3 mb-lg-4 mb-xl-5">
-  <div class="d-flex justify-content-between align-items-center">
-    <h2 class="h3 pb-3">Découvrez nos produits en solde</h2>
-    <span class="animate-underline d-flex align-items-center gap-2 ">
-      <a routerLink="/catalog" class="nav-link animate-target fs-sm p-0 fw-semibold">Voir tous les produits</a>
-      <i class="ci-arrow-right"></i>
-    </span>
+<section class="best-sale-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <div class="header-content">
+        <h2 class="section-title">
+          <span class="title-text">Nos Produits</span>
+          <span class="title-accent">En Vedette</span>
+        </h2>
+        <p class="section-subtitle">
+          Découvrez notre sélection exclusive de produits tendance, choisis avec soin pour leur qualité exceptionnelle
+        </p>
+      </div>
+      <div class="header-action">
+        <a routerLink="/catalog" class="view-all-btn">
+          <span>Voir tout</span>
+          <i class="arrow-icon">→</i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" *ngIf="!loading && bestSaleProducts.length > 0">
+
+      <!-- Main Featured Product -->
+      <div class="featured-product" *ngIf="bestSaleProducts[0]">
+        <div class="product-card featured" [attr.data-aos]="'fade-right'" [attr.data-aos-delay]="0">
+          <a [routerLink]="['/catalog', bestSaleProducts[0].id]" class="product-link">
+
+            <!-- Product Image -->
+            <div class="product-image-container">
+              <img [src]="bestSaleProducts[0].thumbnail_url" [alt]="bestSaleProducts[0].name" class="product-image">
+              <div class="image-overlay"></div>
+
+              <!-- Product Badges -->
+              <div class="product-badges">
+                <span class="badge featured-badge">Vedette</span>
+                <span class="badge discount-badge" *ngIf="bestSaleProducts[0].discount_percentage > 0">
+                  -{{ bestSaleProducts[0].discount_percentage }}%
+                </span>
+              </div>
+
+              <!-- Quick Actions -->
+              <div class="quick-actions">
+                <button class="action-btn favorite-btn"
+                  (click)="$event.preventDefault(); toggleFavorite(bestSaleProducts[0])">
+                  <i class="fa fa-heart"></i>
+                </button>
+                <button class="action-btn view-btn" (click)="$event.preventDefault(); quickView(bestSaleProducts[0])">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+              <div class="product-category">{{ bestSaleProducts[0].category?.name }}</div>
+              <h3 class="product-name">{{ bestSaleProducts[0].name }}</h3>
+              <p class="product-description" [innerHTML]="bestSaleProducts[0].description | slice:0:120"></p>
+
+              <div class="product-pricing">
+                <span class="current-price">{{ bestSaleProducts[0].sale_price | currency:'XOF':true:'1.0-0' }}</span>
+                <span class="original-price" *ngIf="bestSaleProducts[0].price !== bestSaleProducts[0].sale_price">
+                  {{ bestSaleProducts[0].price | currency:'XOF':true:'1.0-0' }}
+                </span>
+              </div>
+
+              <div class="product-actions">
+                <button class="add-to-cart-btn primary"
+                  (click)="$event.preventDefault(); addToCart(bestSaleProducts[0])">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span>Ajouter au panier</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hover Effects -->
+            <div class="hover-effects">
+              <div class="glow-effect"></div>
+              <div class="shine-effect"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Secondary Products Grid -->
+      <div class="secondary-products">
+
+        <!-- Large Secondary Product -->
+        <div class="product-card large" *ngIf="bestSaleProducts[1]" [attr.data-aos]="'fade-up'"
+          [attr.data-aos-delay]="100">
+          <a [routerLink]="['/catalog', bestSaleProducts[1].id]" class="product-link">
+
+            <div class="product-image-container">
+              <img [src]="bestSaleProducts[1].thumbnail_url" [alt]="bestSaleProducts[1].name" class="product-image">
+              <div class="image-overlay"></div>
+
+              <div class="product-badges">
+                <span class="badge sale-badge" *ngIf="bestSaleProducts[1].discount_percentage > 0">
+                  Solde
+                </span>
+              </div>
+
+              <div class="quick-actions">
+                <button class="action-btn favorite-btn"
+                  (click)="$event.preventDefault(); toggleFavorite(bestSaleProducts[1])">
+                  <i class="fa fa-heart"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="product-info compact">
+              <h4 class="product-name">{{ bestSaleProducts[1].name }}</h4>
+              <div class="product-pricing">
+                <span class="current-price">{{ bestSaleProducts[1].sale_price | currency:'XOF':true:'1.0-0' }}</span>
+                <span class="original-price" *ngIf="bestSaleProducts[1].price !== bestSaleProducts[1].sale_price">
+                  {{ bestSaleProducts[1].price | currency:'XOF':true:'1.0-0' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="hover-effects">
+              <div class="glow-effect"></div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Small Products -->
+        <div class="small-products-grid">
+          <div class="product-card small" *ngFor="let product of bestSaleProducts.slice(2, 4); let i = index"
+            [attr.data-aos]="'fade-left'" [attr.data-aos-delay]="200 + (i * 100)">
+            <a [routerLink]="['/catalog', product.id]" class="product-link">
+
+              <div class="product-image-container">
+                <img [src]="product.thumbnail_url" [alt]="product.name" class="product-image">
+                <div class="image-overlay"></div>
+
+                <div class="product-badges">
+                  <span class="badge new-badge">Nouveau</span>
+                </div>
+
+                <button class="quick-add-btn" (click)="$event.preventDefault(); addToCart(product)">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+
+              <div class="product-info minimal">
+                <h5 class="product-name">{{ product.name }}</h5>
+                <div class="product-pricing">
+                  <span class="current-price">{{ product.sale_price | currency:'XOF':true:'1.0-0' }}</span>
+                </div>
+              </div>
+
+              <div class="hover-effects">
+                <div class="glow-effect"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-grid" *ngIf="loading">
+      <div class="featured-skeleton">
+        <div class="skeleton-image large"></div>
+        <div class="skeleton-content">
+          <div class="skeleton-category"></div>
+          <div class="skeleton-title"></div>
+          <div class="skeleton-description"></div>
+          <div class="skeleton-price"></div>
+          <div class="skeleton-button"></div>
+        </div>
+      </div>
+      <div class="secondary-skeletons">
+        <div class="skeleton-card large">
+          <div class="skeleton-image"></div>
+          <div class="skeleton-info">
+            <div class="skeleton-title short"></div>
+            <div class="skeleton-price"></div>
+          </div>
+        </div>
+        <div class="small-skeletons">
+          <div class="skeleton-card small" *ngFor="let item of [1,2]">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-info">
+              <div class="skeleton-title"></div>
+              <div class="skeleton-price"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" *ngIf="error && !loading">
+      <div class="error-content">
+        <div class="fa fa-exclamation-triangle"></div>
+        <h3>Impossible de charger les produits</h3>
+        <p>{{ error }}</p>
+        <button class="retry-btn" (click)="loadBestSaleProducts()">
+          <span>Réessayer</span>
+          <i class="fa fa-refresh"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!loading && !error && bestSaleProducts.length === 0">
+      <div class="empty-content">
+        <div class="fa fa-shopping-cart"></div>
+        <h3>Aucun produit en vedette</h3>
+        <p>Les produits en vedette seront bientôt disponibles</p>
+        <a routerLink="/catalog" class="browse-btn">
+          <span>Parcourir le catalogue</span>
+          <i class="arrow-icon">→</i>
+        </a>
+      </div>
+    </div>
   </div>
-  <!-- Grid -->
-  <div *ngIf="bestSaleProducts.length > 0" class="row g-4 g-sm-3 g-lg-4 mb-xxl-3">
-    <div class="col-sm-5 d-flex flex-column gap-4 gap-sm-3 gap-lg-4">
-      <!-- Item with hotspots -->
-      <div class="ratio" id="hotspots" style="--cz-aspect-ratio: calc(500 / 526 * 100%)">
-        <img src="{{bestSaleProducts[0].thumbnail_url}}" class="rounded-5" alt="Image">
-      </div>
 
-      <!-- Item -->
-      <div class="ratio" style="--cz-aspect-ratio: calc(529 / 526 * 100%)">
-        <img src="{{bestSaleProducts[1].thumbnail_url}}" class="rounded-5" alt="Image">
-      </div>
-    </div>
-    <div class="col-sm-7 d-flex flex-column gap-4 gap-sm-3 gap-lg-4">
-
-      <!-- Item -->
-      <div class="ratio" style="--cz-aspect-ratio: calc(664 / 746 * 100%)">
-        <img src="{{bestSaleProducts[2].thumbnail_url}}" class="rounded-5" alt="Image">
-      </div>
-
-      <!-- Item -->
-      <div class="ratio" style="--cz-aspect-ratio: calc(365 / 746 * 100%)">
-        <img src="{{bestSaleProducts[3]?.thumbnail_url}}" class="rounded-5" alt="Image">
-      </div>
-    </div>
+  <!-- Background Decorations -->
+  <div class="background-decorations">
+    <div class="decoration-shape shape-1"></div>
+    <div class="decoration-shape shape-2"></div>
+    <div class="decoration-dots dots-1"></div>
+    <div class="decoration-dots dots-2"></div>
   </div>
 </section>

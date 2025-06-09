@@ -1,61 +1,126 @@
-<div class="col">
-  <article class="animate-underline">
-    <a class="hover-effect-opacity position-relative d-block mb-3" [routerLink]="['/catalog', product.id]">
-      <div class="position-relative d-flex hover-effect-opacity overflow-hidden rounded-4 img-container">
-        <!-- Badge prix barré en haut à droite -->
-        <div *ngIf="product.sale_price && product.price !== product.sale_price"
-          class="position-absolute top-0 end-0 p-2 z-1">
-          <div class="badge bg-danger py-2 px-3">
-            <span class="text-decoration-line-through me-1">{{product.price | currency:'XOF':true:'1.0-0'}}</span>
-            <!-- <span>-{{product.discount_percentage}}%</span> -->
-          </div>
+<article class="product-card modern">
+  <a [routerLink]="['/catalog', product.id]" class="product-link">
+
+    <!-- Product Image Container -->
+    <div class="product-image-container">
+      <div class="image-wrapper">
+        <!-- Primary Image -->
+        <img [src]="getProductImage1(product)" [alt]="product.name" class="product-image primary" loading="lazy">
+
+        <!-- Secondary Image (hover effect) -->
+        <img [src]="getProductImage2(product)" [alt]="product.name" class="product-image secondary"
+          *ngIf="product.images && product.images.length > 1" loading="lazy">
+      </div>
+
+      <!-- Product Badges -->
+      <div class="product-badges">
+        <span class="badge new-badge" *ngIf="isNewProduct()">
+          Nouveau
+        </span>
+        <span class="badge sale-badge" *ngIf="product.discount_percentage > 0">
+          -{{ product.discount_percentage }}%
+        </span>
+        <span class="badge featured-badge" *ngIf="product.is_featured">
+          Vedette
+        </span>
+        <span class="badge stock-badge" *ngIf="isLowStock()">
+          Stock faible
+        </span>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="action-btn favorite-btn" [class.active]="isFavorite()"
+          (click)="$event.preventDefault(); toggleFavorite()"
+          [title]="isFavorite() ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+          <i class="heart-icon">{{ isFavorite() ? '♥' : '♡' }}<i class="fa fa-heart"></i></i>
+        </button>
+
+        <button class="action-btn quick-view-btn" (click)="$event.preventDefault(); quickView()" title="Vue rapide">
+          <i class="eye-icon fa fa-eye"></i>
+        </button>
+      </div>
+
+      <!-- Stock Status Overlay -->
+      <div class="stock-status" *ngIf="!product.in_stock">
+        <span class="stock-text">Rupture de stock</span>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <!-- Category -->
+      <div class="product-category" *ngIf="product.category">
+        {{ product.category.name }}
+      </div>
+
+      <!-- Product Name -->
+      <h3 class="product-name">{{ product.name }}</h3>
+
+      <!-- Product Description -->
+      <div class="product-description" *ngIf="product.description" [innerHTML]="product.description | slice:0:100">
+      </div>
+
+      <!-- Product Rating -->
+      <div class="product-rating" *ngIf="hasRating()">
+        <div class="stars">
+          <span class="star" *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= getRating()">
+            ★
+          </span>
         </div>
-
-        <img alt="{{product.name}}" loading="lazy" decoding="async" data-nimg="1"
-          class="hover-effect-target opacity-100" srcset="{{getProductImage1(product)}}"
-          src="{{getProductImage1(product)}}" style="color: transparent;">
-
-        <img alt="{{product.name}}" loading="lazy" decoding="async" data-nimg="1"
-          class="position-absolute top-0 start-0 hover-effect-target opacity-0" srcset="{{getProductImage2(product)}}"
-          src="{{getProductImage2(product)}}" style="color: transparent;">
+        <span class="rating-count" *ngIf="getReviewsCount()">
+          ({{ getReviewsCount() }})
+        </span>
       </div>
-    </a>
 
-    <div class="d-flex flex-column justify-content-between mb-2">
-      <h3 class="mb-0"><a class="d-block fs-sm fw-medium text-truncate" [routerLink]="['/catalog', product.id]">
-          <span class="animate-target">{{product.name}}</span></a>
-      </h3>
-      <div class="d-flex flex-column">
-        <span class="h6 mb-0 text-danger">{{product.sale_price | currency:'XOF':true:'1.0-0'}}</span>
+      <!-- Product Pricing -->
+      <div class="product-pricing">
+        <span class="current-price">
+          {{ product.sale_price | currency:'XOF':true:'1.0-0' }}
+        </span>
+        <span class="original-price" *ngIf="product.price !== product.sale_price">
+          {{ product.price | currency:'XOF':true:'1.0-0' }}
+        </span>
+        <span class="savings" *ngIf="product.discount_percentage > 0">
+          Économisez {{ getSavings() | currency:'XOF':true:'1.0-0' }}
+        </span>
       </div>
     </div>
 
-    <div class="d-flex gap-2 pt-2">
-      <!-- Si le produit n'est pas dans le panier, afficher le bouton d'ajout -->
-      <button *ngIf="!inCart" type="button" class="btn btn-sm btn-primary rounded-pill w-100" (click)="addToCart()">
-        Ajouter au panier
-      </button>
+    <!-- Hover Effects -->
+    <div class="hover-effects">
+      <div class="glow-effect"></div>
+      <div class="shine-effect"></div>
+    </div>
+  </a>
 
-      <!-- Si le produit est déjà dans le panier, afficher le contrôle de quantité -->
-      <div *ngIf="inCart" class="quantity-control w-100">
-        <button class="minus-btn" (click)="decrementQuantity()">−</button>
-        <span class="quantity-display">{{cartQuantity}}</span>
-        <button class="plus-btn" (click)="incrementQuantity()">+</button>
-      </div>
-
-      <!-- Bouton favoris -->
-      <button type="button" class="btn btn-icon btn-secondary rounded-circle animate-pulse"
-        aria-label="Add to Wishlist">
-        <i class="ci-heart fs-base animate-target"></i>
+  <!-- Product Actions (outside of link) -->
+  <div class="product-actions">
+    <!-- Quantity Control or Add to Cart -->
+    <div class="cart-section" *ngIf="!inCart && product.in_stock">
+      <button class="add-to-cart-btn primary" (click)="addToCart()">
+        <i class="cart-icon fa fa-shopping-cart"></i>
+        <span class="btn-text">Ajouter au panier</span>
       </button>
     </div>
 
-    <!-- Indicateur de stock -->
-    <div class="mt-1 small" *ngIf="product.stock_quantity <= 5 && product.stock_quantity > 0">
-      <span class="text-warning">Plus que {{product.stock_quantity}} en stock!</span>
+    <!-- Quantity Control -->
+    <div class="quantity-control" *ngIf="inCart">
+      <button class="quantity-btn minus-btn" (click)="decrementQuantity()" [disabled]="cartQuantity <= 1">
+        <i class="minus-icon">−</i>
+      </button>
+      <span class="quantity-display">{{ cartQuantity }}</span>
+      <button class="quantity-btn plus-btn" (click)="incrementQuantity()" [disabled]="cartQuantity >= maxQuantity">
+        <i class="plus-icon">+</i>
+      </button>
     </div>
-    <div class="mt-1 small" *ngIf="product.stock_quantity === 0">
-      <span class="text-danger">Rupture de stock</span>
+
+    <!-- Out of Stock Button -->
+    <div class="cart-section" *ngIf="!product.in_stock">
+      <button class="add-to-cart-btn disabled" disabled>
+        <i class="stock-icon fa fa-times"></i>
+        <span class="btn-text">Rupture de stock</span>
+      </button>
     </div>
-  </article>
-</div>
+  </div>
+</article>

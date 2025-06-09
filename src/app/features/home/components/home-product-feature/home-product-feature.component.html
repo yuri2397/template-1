@@ -1,16 +1,91 @@
-<div class="pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5 container">
-  <div class="d-flex justify-content-between align-items-center">
-    <h2 class="h3 pb-3">Nos produits populaires</h2>
-    <span class="animate-underline d-flex align-items-center gap-2 ">
-      <a routerLink="/catalog" class="nav-link animate-target fs-sm p-0 fw-semibold">Voir tous les produits</a>
-      <i class="ci-arrow-right"></i>
-    </span>
-  </div>
-  <div class="gy-5 row row-cols-lg-4 row-cols-md-3 row-cols-2">
-    @for (product of featuredProducts; track product.id) {
-    <div class="col">
-      <app-product-item [product]="product"></app-product-item>
+<section class="product-feature-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <div class="header-content">
+        <h2 class="section-title">
+          <span class="title-text">Nos Produits</span>
+          <span class="title-accent">Populaires</span>
+        </h2>
+        <p class="section-subtitle">
+          Découvrez notre sélection de produits les plus appréciés par nos clients
+        </p>
+      </div>
+      <div class="header-action">
+        <a routerLink="/catalog" class="view-all-btn">
+          <span>Voir tout</span>
+          <i class="arrow-icon fa fa-arrow-right"></i>
+        </a>
+      </div>
     </div>
-    }
+
+    <!-- Products Grid -->
+    <div class="products-grid" *ngIf="!loading && featuredProducts.length > 0">
+      <div *ngFor="let product of featuredProducts; let i = index" class="product-wrapper" [attr.data-aos]="'fade-up'"
+        [attr.data-aos-delay]="i * 100">
+
+        <app-product-item [product]="product"></app-product-item>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-grid" *ngIf="loading">
+      <div class="product-skeleton" *ngFor="let item of [1,2,3,4,5,6,7,8]">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-content">
+          <div class="skeleton-category"></div>
+          <div class="skeleton-title"></div>
+          <div class="skeleton-description"></div>
+          <div class="skeleton-price"></div>
+          <div class="skeleton-button"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" *ngIf="error && !loading">
+      <div class="error-content">
+        <div class="error-icon fa fa-exclamation-triangle"></div>
+        <h3>Impossible de charger les produits</h3>
+        <p>{{ error }}</p>
+        <button class="retry-btn" (click)="loadFeaturedProducts()">
+          <span>Réessayer</span>
+          <i class="retry-icon fa fa-refresh"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!loading && !error && featuredProducts.length === 0">
+      <div class="empty-content">
+        <div class="empty-icon fa fa-shopping-cart"></div>
+        <h3>Aucun produit disponible</h3>
+        <p>Les produits seront bientôt disponibles</p>
+        <a routerLink="/catalog" class="browse-btn">
+          <span>Parcourir le catalogue</span>
+          <i class="arrow-icon fa fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- View All Section -->
+    <div class="view-all-section" *ngIf="!loading && !error && featuredProducts.length === 8">
+      <div class="view-all-content">
+        <h3>Envie de voir plus de produits ?</h3>
+        <p>Explorez notre catalogue complet avec des centaines d'articles</p>
+        <a routerLink="/catalog" class="view-catalog-btn">
+          <span>Voir tous les produits</span>
+          <i class="catalog-icon fa fa-shopping-cart"></i>
+          <i class="arrow-icon fa fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- Background Decorations -->
+  <div class="background-decorations">
+    <div class="decoration-element element-1"></div>
+    <div class="decoration-element element-2"></div>
+    <div class="decoration-grid"></div>
+  </div>
+</section>

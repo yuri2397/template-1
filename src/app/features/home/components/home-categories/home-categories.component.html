@@ -86,12 +86,14 @@
     <!-- Error State -->
     <div class="error-state" *ngIf="error && !loading">
       <div class="error-content">
-        <div class="error-icon">⚠️</div>
+        <div class="error-icon">
+          <i class="fa fa-exclamation-triangle"></i>
+        </div>
         <h3>Impossible de charger les catégories</h3>
         <p>{{ error }}</p>
         <button class="retry-btn" (click)="loadCategories()">
           <span>Réessayer</span>
-          <i class="retry-icon">🔄</i>
+          <i class="fa fa-refresh"></i>
         </button>
       </div>
     </div>
@@ -99,7 +101,9 @@
     <!-- Empty State -->
     <div class="empty-state" *ngIf="!loading && !error && categories.length === 0">
       <div class="empty-content">
-        <div class="empty-icon">📦</div>
+        <div class="empty-icon">
+          <i class="fa fa-box"></i>
+        </div>
         <h3>Aucune catégorie disponible</h3>
         <p>Les catégories seront bientôt disponibles</p>
       </div>

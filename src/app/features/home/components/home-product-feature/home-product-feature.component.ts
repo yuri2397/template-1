@@ -1,18 +1,20 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
-import { ProductItemComponent } from '../../../../shared/components/product-item/product-item.component';
+import { Product, ProductItemComponent } from '../../../../shared/components/product-item/product-item.component';
+import { finalize } from 'rxjs/operators';
+
+
 @Component({
   selector: 'app-home-product-feature',
   standalone: true,
   imports: [CommonModule, RouterModule, ProductItemComponent],
   templateUrl: './home-product-feature.component.html',
-  styleUrl: './home-product-feature.component.scss',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  styleUrl: './home-product-feature.component.scss'
 })
 export class HomeProductFeatureComponent implements OnInit {
-  featuredProducts: any[] = [];
+  featuredProducts: Product[] = [];
   loading = false;
   error: string | null = null;
 
@@ -26,22 +28,28 @@ export class HomeProductFeatureComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.productsService.getFeaturedProducts({
-      limit: 8,
-      with_images: true,
-      with_category: true
-    }).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.featuredProducts = response.data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading featured products:', err);
-        this.error = 'Impossible de charger les produits vedettes. Veuillez réessayer plus tard.';
-        this.loading = false;
-      }
-    });
+    this.productsService
+      .getFeaturedProducts({
+        limit: 8,
+        with_images: true,
+        with_category: true
+      })
+      .pipe(
+        finalize(() => this.loading = false)
+      )
+      .subscribe({
+        next: (response) => {
+          this.featuredProducts = response?.data || [];
+          console.log('Featured products loaded:', this.featuredProducts);
+        },
+        error: (err) => {
+          console.error('Error loading featured products:', err);
+          this.error = 'Impossible de charger les produits populaires. Veuillez réessayer plus tard.';
+        }
+      });
   }
 
+  retryLoad(): void {
+    this.loadFeaturedProducts();
+  }
 }
