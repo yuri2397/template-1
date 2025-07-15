@@ -1,0 +1,134 @@
+<section class="login-section">
+  <div class="container">
+    <!-- Login Card -->
+    <div class="login-card">
+      <div class="card-header">
+        <div class="header-content">
+          <h2 class="login-title">Connexion</h2>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email" class="form-label">
+              <i class="fa fa-envelope"></i>
+              <span>Adresse email</span>
+            </label>
+            <div class="input-wrapper" [class.error]="isFieldInvalid('email')"
+              [class.focused]="isFieldFocused('email')">
+              <input type="email" id="email" formControlName="email" class="form-input" placeholder="votre@email.com"
+                (focus)="onFieldFocus('email')" (blur)="onFieldBlur('email')" autocomplete="email">
+              <div class="input-icon">
+                <i class="fa fa-envelope"></i>
+              </div>
+            </div>
+            <div class="field-error" *ngIf="isFieldInvalid('email')">
+              <i class="fa fa-exclamation-circle"></i>
+              <span *ngIf="loginForm.get('email')?.errors?.['required']">
+                L'adresse email est requise
+              </span>
+              <span *ngIf="loginForm.get('email')?.errors?.['email']">
+                Veuillez saisir une adresse email valide
+              </span>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label for="password" class="form-label">
+              <i class="fa fa-lock"></i>
+              <span>Mot de passe</span>
+            </label>
+            <div class="input-wrapper" [class.error]="isFieldInvalid('password')"
+              [class.focused]="isFieldFocused('password')">
+              <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
+                class="form-input" placeholder="Votre mot de passe" (focus)="onFieldFocus('password')"
+                (blur)="onFieldBlur('password')" autocomplete="current-password">
+              <div class="input-icon">
+                <i class="fa fa-lock"></i>
+              </div>
+              <button type="button" class="password-toggle" (click)="togglePasswordVisibility()"
+                [title]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+                <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+              </button>
+            </div>
+            <div class="field-error" *ngIf="isFieldInvalid('password')">
+              <i class="fa fa-exclamation-circle"></i>
+              <span *ngIf="loginForm.get('password')?.errors?.['required']">
+                Le mot de passe est requis
+              </span>
+              <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                Le mot de passe doit contenir au moins 6 caractères
+              </span>
+            </div>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="form-options">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" formControlName="rememberMe" class="checkbox-input">
+              <span class="checkbox-custom">
+                <i class="fa fa-check"></i>
+              </span>
+              <span class="checkbox-label">Se souvenir de moi</span>
+            </label>
+
+            <a href="#" class="forgot-password" (click)="onForgotPassword($event)">
+              Mot de passe oublié ?
+            </a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" [class.loading]="isLoading"
+            [disabled]="isLoading || loginForm.invalid">
+            <span class="btn-content" *ngIf="!isLoading">
+              <i class="fa fa-sign-in"></i>
+              <span>Se connecter</span>
+            </span>
+            <span class="btn-loading" *ngIf="isLoading">
+              <i class="fa fa-spinner fa-spin"></i>
+              <span>Connexion en cours...</span>
+            </span>
+          </button>
+
+          <!-- Error Message -->
+          <div class="error-message" *ngIf="errorMessage">
+            <div class="error-content">
+              <i class="fa fa-exclamation-triangle"></i>
+              <span>{{ errorMessage }}</span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-footer">
+        <!-- Register Link -->
+        <div class="register-section">
+          <p class="register-text">
+            Vous n'avez pas encore de compte ?
+            <a routerLink="/register" class="register-link">Créer un compte</a>
+          </p>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="back-home">
+          <a routerLink="/" class="back-link">
+            <i class="fa fa-arrow-left"></i>
+            <span>Retour à l'accueil</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Decorations -->
+  <div class="background-decorations">
+    <div class="decoration-shape shape-1"></div>
+    <div class="decoration-shape shape-2"></div>
+    <div class="decoration-dots dots-1"></div>
+    <div class="decoration-dots dots-2"></div>
+  </div>
+</section>

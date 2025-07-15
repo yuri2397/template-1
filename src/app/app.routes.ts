@@ -26,6 +26,10 @@ export const routes: Routes = [
     loadComponent: () => import('./shared/components/about/about.component').then(m => m.AboutComponent)
   },
   {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

@@ -20,7 +20,7 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   title = 'template-1';
   isHomePage = false;
-
+  oneOfAuthPages = true;
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -28,6 +28,9 @@ export class AppComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.isHomePage = event.url === '/' || event.url === '';
+      // this.oneOfAuthPages = event.url === '/login' || event.url === '/register' || event.url === '/forgot-password'
+      console.clear();
+      console.log(this.oneOfAuthPages);
     });
 
     this.isHomePage = this.router.url === '/' || this.router.url === '';

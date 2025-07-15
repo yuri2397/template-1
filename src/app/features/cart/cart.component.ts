@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartItem, CartService } from '../../core/services/cart.service';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ConfirmationModalComponent } from '../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
@@ -26,7 +26,8 @@ export class CartComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
-    private _cartService: CartService
+    private _cartService: CartService,
+    private _router: Router
   ) {
     this.isAuthenticated = this._authService.isAuthenticated();
 
@@ -110,6 +111,14 @@ export class CartComponent implements OnInit {
         this.showMessage('Erreur lors du vidage du panier', 'error');
       }
     });
+  }
+
+  goToCheckout(): void {
+    if(this.isAuthenticated) {
+      this._router.navigate(['/checkout']);
+    } else {
+      this._router.navigate(['/login']);
+    }
   }
 
   private showMessage(message: string, type: 'success' | 'error' | 'info' | 'warning'): void {
