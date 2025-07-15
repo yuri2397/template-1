@@ -68,6 +68,10 @@ $shadow-dark: rgba(0, 0, 0, 0.1);
             color: $primary-pink;
             border-color: $primary-pink;
           }
+
+          &.avatar-btn {
+            border: none;
+          }
         }
 
         .mobile-menu-toggle .hamburger-line {

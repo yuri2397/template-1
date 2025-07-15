@@ -101,6 +101,17 @@
 
       <!-- Right Side Actions -->
       <div class="navbar-actions">
+        <!-- profile -->
+        @if (isAuthenticated) {
+          <a routerLink="/profile" class="action-btn profile-btn">
+            <i class="fa fa-user"></i>
+          </a>
+        } @else {
+          <a routerLink="/login" class="action-btn profile-btn">
+            <i class="fa fa-user"></i>
+          </a>
+        }
+
         <!-- Search -->
         <div class="search-container" [class.open]="isSearchOpen">
           <button class="action-btn search-toggle" (click)="toggleSearch()" aria-label="Toggle search">

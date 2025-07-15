@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -23,11 +24,14 @@ export class HeaderComponent implements OnInit {
   isScrolled = false;
   isSearchOpen = false;
   isHomePage = false;
+  isAuthenticated = false;
+  user?: any;
 
   constructor(
     private _categoriesService: CategoriesService,
     private _cartService: CartService,
-    private router: Router
+    private router: Router,
+    private _authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +55,11 @@ export class HeaderComponent implements OnInit {
     });
 
     this.isHomePage = this.router.url === '/' || this.router.url === '';
+
+    this._authService.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
+      this.user = this._authService.getUser();
+    });
   }
 
   @HostListener('window:scroll', ['$event'])

@@ -1,1 +1,244 @@
-<p>register works!</p>
+<section class="register-section">
+  <div class="container">
+    <!-- Register Card -->
+    <div class="register-card">
+      <div class="card-header">
+        <div class="header-content">
+          <h2 class="register-title">Créer un compte</h2>
+          <p class="register-subtitle">Rejoignez notre communauté et découvrez tous nos produits</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <!-- Register Form -->
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name" class="form-label">
+              <i class="fa fa-user"></i>
+              <span>Nom complet</span>
+            </label>
+            <div class="input-wrapper" [class.error]="isFieldInvalid('name')"
+              [class.focused]="isFieldFocused('name')">
+              <input type="text" id="name" formControlName="name" class="form-input" placeholder="Votre nom complet"
+                (focus)="onFieldFocus('name')" (blur)="onFieldBlur('name')" autocomplete="name">
+              <div class="input-icon">
+                <i class="fa fa-user"></i>
+              </div>
+            </div>
+            <div class="field-error" *ngIf="isFieldInvalid('name')">
+              <i class="fa fa-exclamation-circle"></i>
+              <span *ngIf="registerForm.get('name')?.errors?.['required']">
+                Le nom est requis
+              </span>
+              <span *ngIf="registerForm.get('name')?.errors?.['minlength']">
+                Le nom doit contenir au moins 2 caractères
+              </span>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email" class="form-label">
+              <i class="fa fa-envelope"></i>
+              <span>Adresse email</span>
+            </label>
+            <div class="input-wrapper" [class.error]="isFieldInvalid('email')"
+              [class.focused]="isFieldFocused('email')">
+              <input type="email" id="email" formControlName="email" class="form-input" placeholder="votre@email.com"
+                (focus)="onFieldFocus('email')" (blur)="onFieldBlur('email')" autocomplete="email">
+              <div class="input-icon">
+                <i class="fa fa-envelope"></i>
+              </div>
+            </div>
+            <div class="field-error" *ngIf="isFieldInvalid('email')">
+              <i class="fa fa-exclamation-circle"></i>
+              <span *ngIf="registerForm.get('email')?.errors?.['required']">
+                L'adresse email est requise
+              </span>
+              <span *ngIf="registerForm.get('email')?.errors?.['email']">
+                Veuillez saisir une adresse email valide
+              </span>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label for="password" class="form-label">
+              <i class="fa fa-lock"></i>
+              <span>Mot de passe</span>
+            </label>
+            <div class="input-wrapper" [class.error]="isFieldInvalid('password')"
+              [class.focused]="isFieldFocused('password')">
+              <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
+                class="form-input" placeholder="Votre mot de passe" (focus)="onFieldFocus('password')"
+                (blur)="onFieldBlur('password')" autocomplete="new-password">
+              <div class="input-icon">
+                <i class="fa fa-lock"></i>
+              </div>
+              <button type="button" class="password-toggle" (click)="togglePasswordVisibility()"
+                [title]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+                <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+              </button>
+            </div>
+            <div class="field-error" *ngIf="isFieldInvalid('password')">
+              <i class="fa fa-exclamation-circle"></i>
+              <span *ngIf="registerForm.get('password')?.errors?.['required']">
+                Le mot de passe est requis
+              </span>
+              <span *ngIf="registerForm.get('password')?.errors?.['minlength']">
+                Le mot de passe doit contenir au moins 8 caractères
+              </span>
+              <span *ngIf="registerForm.get('password')?.errors?.['pattern']">
+                Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre
+              </span>
+            </div>
+          </div>
+
+          <!-- Password Confirmation Field -->
+          <div class="form-group">
+            <label for="password_confirmation" class="form-label">
+              <i class="fa fa-lock"></i>
+              <span>Confirmer le mot de passe</span>
+            </label>
+            <div class="input-wrapper" [class.error]="isFieldInvalid('password_confirmation')"
+              [class.focused]="isFieldFocused('password_confirmation')">
+              <input [type]="showPasswordConfirmation ? 'text' : 'password'" id="password_confirmation"
+                formControlName="password_confirmation" class="form-input" placeholder="Confirmez votre mot de passe"
+                (focus)="onFieldFocus('password_confirmation')" (blur)="onFieldBlur('password_confirmation')"
+                autocomplete="new-password">
+              <div class="input-icon">
+                <i class="fa fa-lock"></i>
+              </div>
+              <button type="button" class="password-toggle" (click)="togglePasswordConfirmationVisibility()"
+                [title]="showPasswordConfirmation ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+                <i [class]="showPasswordConfirmation ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+              </button>
+            </div>
+            <div class="field-error" *ngIf="isFieldInvalid('password_confirmation')">
+              <i class="fa fa-exclamation-circle"></i>
+              <span *ngIf="registerForm.get('password_confirmation')?.errors?.['required']">
+                La confirmation du mot de passe est requise
+              </span>
+              <span *ngIf="registerForm.hasError('passwordMismatch')">
+                Les mots de passe ne correspondent pas
+              </span>
+            </div>
+          </div>
+
+          <!-- Terms and Conditions -->
+          <div class="form-group">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" formControlName="acceptTerms" class="checkbox-input">
+              <span class="checkbox-custom">
+                <i class="fa fa-check"></i>
+              </span>
+              <span class="checkbox-label">
+                J'accepte les <a href="#" class="terms-link" (click)="onTermsClick($event)">conditions d'utilisation</a>
+                et la <a href="#" class="privacy-link" (click)="onPrivacyClick($event)">politique de confidentialité</a>
+              </span>
+            </label>
+            <div class="field-error" *ngIf="isFieldInvalid('acceptTerms')">
+              <i class="fa fa-exclamation-circle"></i>
+              <span>Vous devez accepter les conditions d'utilisation</span>
+            </div>
+          </div>
+
+          <!-- Newsletter Subscription -->
+          <div class="form-group">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" formControlName="subscribeNewsletter" class="checkbox-input">
+              <span class="checkbox-custom">
+                <i class="fa fa-check"></i>
+              </span>
+              <span class="checkbox-label">
+                Je souhaite recevoir les newsletters et offres promotionnelles
+              </span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" [class.loading]="isLoading"
+            [disabled]="isLoading || registerForm.invalid">
+            <span class="btn-content" *ngIf="!isLoading">
+              <i class="fa fa-user-plus"></i>
+              <span>Créer mon compte</span>
+            </span>
+            <span class="btn-loading" *ngIf="isLoading">
+              <i class="fa fa-spinner fa-spin"></i>
+              <span>Création en cours...</span>
+            </span>
+          </button>
+
+          <!-- Error Message -->
+          <div class="error-message" *ngIf="errorMessage">
+            <div class="error-content">
+              <i class="fa fa-exclamation-triangle"></i>
+              <span>{{ errorMessage }}</span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-footer">
+        <!-- Login Link -->
+        <div class="login-section">
+          <p class="login-text">
+            Vous avez déjà un compte ?
+            <a routerLink="/login" class="login-link">Se connecter</a>
+          </p>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="back-home">
+          <a routerLink="/" class="back-link">
+            <i class="fa fa-arrow-left"></i>
+            <span>Retour à l'accueil</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" *ngIf="showSuccessModal" (click)="closeSuccessModal()">
+    <div class="success-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="success-icon">
+          <i class="fa fa-check-circle"></i>
+        </div>
+        <h3 class="modal-title">Compte créé avec succès !</h3>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-text">
+          Votre compte a été créé avec succès. Un email de confirmation a été envoyé à
+          <strong>{{ registeredEmail }}</strong>
+        </p>
+        <p class="modal-subtitle">
+          Veuillez vérifier votre boîte mail et cliquer sur le lien de confirmation pour activer votre compte.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="closeSuccessModal()">
+          <i class="fa fa-times"></i>
+          <span>Fermer</span>
+        </button>
+        <button type="button" class="btn-primary" (click)="goToLogin()">
+          <i class="fa fa-sign-in"></i>
+          <span>Se connecter</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Decorations -->
+  <div class="background-decorations">
+    <div class="decoration-shape shape-1"></div>
+    <div class="decoration-shape shape-2"></div>
+    <div class="decoration-shape shape-3"></div>
+    <div class="decoration-dots dots-1"></div>
+    <div class="decoration-dots dots-2"></div>
+  </div>
+</section>
