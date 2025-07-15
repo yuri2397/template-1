@@ -89,11 +89,11 @@ export class OrderService extends ApiClientService {
    * @param data Données de la commande (adresses)
    * @returns Observable avec la commande créée
    */
-  createFromCart(data: {
+  checkout(data: {
     shipping_address: string;
     billing_address?: string;
   }): Observable<any> {
-    return this.post('create-from-cart', data);
+    return this.post('checkout', data);
   }
 
   /**

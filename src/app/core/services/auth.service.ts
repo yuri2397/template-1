@@ -84,6 +84,23 @@ export class AuthService extends ApiClientService {
   }
 
   /**
+   * Inscription utilisateur
+   * @param name Nom de l'utilisateur
+   * @param email Email de l'utilisateur
+   * @param password Mot de passe
+   * @param password_confirmation Confirmation du mot de passe
+   * @returns Observable<any>
+   */
+  register(name: string, email: string, password: string, password_confirmation: string): Observable<any> {
+    return this.post('register', {
+      name,
+      email,
+      password,
+      password_confirmation
+    });
+  }
+
+  /**
    * Récupérer l'utilisateur actuel depuis l'API
    */
   getCurrentUser(): Observable<any> {
