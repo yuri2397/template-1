@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       this.isHomePage = event.url === '/' || event.url === '';
       // this.oneOfAuthPages = event.url === '/login' || event.url === '/register' || event.url === '/forgot-password'
-      console.clear();
       console.log(this.oneOfAuthPages);
     });
 

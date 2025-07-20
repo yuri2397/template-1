@@ -22,7 +22,7 @@ export class HomeHeroComponent implements OnInit, OnDestroy {
       title: 'Collection Élégance',
       subtitle: 'Hijabs Premium',
       description: 'Découvrez notre collection de hijabs en soie et coton, alliant tradition et modernité.',
-      price: '25.000 F CFA',
+      // price: '25.000 F CFA',
       color: 'from-pink-500 to-purple-600'
     },
     {
@@ -31,7 +31,7 @@ export class HomeHeroComponent implements OnInit, OnDestroy {
       title: 'Style Raffiné',
       subtitle: 'Abayas Modernes',
       description: 'Des abayas contemporaines pour la femme moderne qui allie foi et élégance.',
-      price: '45.000 F CFA',
+      // price: '45.000 F CFA',
       color: 'from-purple-500 to-pink-600'
     },
     {
@@ -40,7 +40,7 @@ export class HomeHeroComponent implements OnInit, OnDestroy {
       title: 'Tendance Actuelle',
       subtitle: 'Turbans Chic',
       description: 'Turbans et accessoires pour un look sophistiqué au quotidien.',
-      price: '15.000 F CFA',
+      // price: '15.000 F CFA',
       color: 'from-pink-600 to-rose-500'
     },
     {
@@ -49,7 +49,7 @@ export class HomeHeroComponent implements OnInit, OnDestroy {
       title: 'Nouvelle Collection',
       subtitle: 'Modest Fashion',
       description: 'L\'art de s\'habiller avec élégance tout en respectant ses valeurs.',
-      price: '35.000 F CFA',
+      // price: '35.000 F CFA',
       color: 'from-rose-500 to-pink-500'
     }
   ];

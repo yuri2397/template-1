@@ -35,9 +35,9 @@
             <h2 class="slide-title">{{ getCurrentSlide().title }}</h2>
             <h3 class="slide-subtitle">{{ getCurrentSlide().subtitle }}</h3>
             <p class="slide-description">{{ getCurrentSlide().description }}</p>
-            <div class="price-tag">
-              <span class="price">{{ getCurrentSlide().price }}</span>
-            </div>
+            <!-- <div class="price-tag">
+              <span class="price">{{ getCurrentSlide()?.price }}</span>
+            </div> -->
           </div>
 
           <div class="cta-buttons">
@@ -47,7 +47,7 @@
             </button>
             <button class="btn btn-secondary">
               <span>Nous Contacter</span>
-              <i class="phone-icon">📞</i>
+              <i class="phone-icon fa-solid fa-phone"></i>
             </button>
           </div>
 

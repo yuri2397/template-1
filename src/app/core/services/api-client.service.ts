@@ -26,7 +26,12 @@ export class ApiClientService {
    */
 
   get(endpoint: string, params: any) {
-    return this.http.get(`${this.API_URL}/${this.baseUrl}/${endpoint}`, {
+    console.log(`${this.API_URL}/${this.baseUrl}`)
+    let fullEndPoint = `${this.API_URL}/${this.baseUrl}`;
+    if (endpoint) {
+      fullEndPoint += `/${endpoint}`;
+    }
+    return this.http.get(fullEndPoint, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
