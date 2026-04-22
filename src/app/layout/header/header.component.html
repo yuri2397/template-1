@@ -1,139 +1,33 @@
-<!-- Main Navigation -->
-<header class="main-header" [class.scrolled]="isScrolled">
-  <div class="container">
-    <nav class="navbar">
-
-      <!-- Mobile Menu Toggle -->
-      <button class="mobile-menu-toggle" [class.active]="isMenuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
-
-      <!-- Logo -->
-      <a routerLink="/" class="navbar-brand">
-        <img src="assets/img/difawma-hijab-logo.jpg" alt="Dijanna Hijab" class="logo">
-      </a>
-
-      <!-- Navigation Menu -->
-      <div class="navbar-menu" [class.open]="isMenuOpen">
-        <div class="menu-overlay" (click)="closeMenu()"></div>
-
-        <div class="menu-content">
-          <!-- Mobile Header -->
-          <div class="mobile-header">
-            <img src="assets/img/difawma-hijab-logo.jpg" alt="Dijanna Hijab" class="mobile-logo">
-            <button class="menu-close" (click)="closeMenu()">
-              <i class="fa fa-times"></i>
-            </button>
-          </div>
-
-          <!-- Menu Items -->
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                (click)="closeMenu()">
-                <span>Accueil</span>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a routerLink="/catalog" class="nav-link" routerLinkActive="active" (click)="closeMenu()">
-                <span>Nos produits</span>
-              </a>
-            </li>
-
-            <li class="nav-item dropdown" [class.open]="isCategoriesDropdownOpen"
-              (mouseenter)="isCategoriesDropdownOpen = true" (mouseleave)="isCategoriesDropdownOpen = false">
-              <a href="#" class="nav-link dropdown-toggle">
-                <span>Catégories</span>
-                <i class="fa fa-chevron-down"></i>
-              </a>
-
-              <div class="dropdown-menu">
-                <div class="dropdown-content">
-                  <div class="categories-grid">
-                    <div *ngFor="let category of categories" class="category-item">
-                      <a [routerLink]="['/catalog']" [queryParams]="{
-                           category_id: category.id,
-                           category_slug: category.slug,
-                           page: 1,
-                           limit: 10,
-                           sort: 'name',
-                           order: 'asc'
-                         }" class="category-link" (click)="closeMenu()">
-                        <div class="category-icon">
-                          <img [src]="category.icon_url" [alt]="category.name" class="category-img">
-                        </div>
-                        <span class="category-name">{{ category.name }}</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-
-            <li class="nav-item">
-              <a routerLink="/about" class="nav-link" routerLinkActive="active" (click)="closeMenu()">
-                <span>À propos</span>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a routerLink="/contact" class="nav-link" routerLinkActive="active" (click)="closeMenu()">
-                <span>Contact</span>
-              </a>
-            </li>
-          </ul>
-
-          <!-- Mobile Contact Info -->
-          <div class="mobile-contact">
-            <a href="tel:+221778939112" class="mobile-phone">
-              <i class="fa fa-phone"></i>
-              +221 77 893 91 12
-            </a>
-            <div class="mobile-auth">
-              <a href="#" class="auth-btn">Se connecter</a>
-            </div>
-          </div>
-        </div>
+<nav class="nav" [class.scrolled]="scrolled" [class.menu-open]="menuOpen">
+  <div class="nav-inner">
+    <a href="#" class="brand" aria-label="Thiao Family Groupe — Accueil" (click)="closeMenu()">
+      <svg class="brand-mark" viewBox="0 0 200 220">
+        <g transform="translate(5, 10)">
+          <path d="M 10 80 L 95 10 L 180 80" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" />
+          <rect x="28" y="80" width="134" height="26" fill="var(--accent)" />
+          <rect x="78" y="106" width="34" height="86" fill="var(--accent)" />
+          <line x1="0" y1="205" x2="190" y2="205" stroke="currentColor" stroke-width="6" stroke-linecap="square" />
+        </g>
+      </svg>
+      <div class="brand-txt">
+        <span>Thiao Family Groupe</span>
+        <span class="brand-sub">Immobilier · Dakar</span>
       </div>
+    </a>
 
-      <!-- Right Side Actions -->
-      <div class="navbar-actions">
-        <!-- profile -->
-        @if (isAuthenticated) {
-          <a routerLink="/profile" class="action-btn profile-btn">
-            <i class="fa fa-user"></i>
-          </a>
-        } @else {
-          <a routerLink="/login" class="action-btn profile-btn">
-            <i class="fa fa-user"></i>
-          </a>
-        }
+    <div class="nav-links">
+      <a href="#activites" (click)="closeMenu()">Activités</a>
+      <a href="#biens" (click)="closeMenu()">Biens</a>
+      <a href="#direction" (click)="closeMenu()">Direction</a>
+      <a href="#faq" (click)="closeMenu()">FAQ</a>
+    </div>
 
-        <!-- Search -->
-        <div class="search-container" [class.open]="isSearchOpen">
-          <button class="action-btn search-toggle" (click)="toggleSearch()" aria-label="Toggle search">
-            <i class="fa fa-search"></i>
-          </button>
+    <a href="#contact" class="nav-cta" (click)="closeMenu()">Nous contacter</a>
 
-          <div class="search-box" [class.open]="isSearchOpen">
-            <input type="text" class="search-input" placeholder="Rechercher des produits..." (blur)="closeSearch()">
-            <button class="search-submit" aria-label="Search">
-              <i class="fa fa-search"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Cart -->
-        <a routerLink="/cart" class="action-btn cart-btn">
-          <i class="fa fa-shopping-cart"></i>
-          <span class="cart-count" *ngIf="cartItemsCount > 0">
-            {{ cartItemsCount }}
-          </span>
-        </a>
-      </div>
-    </nav>
+    <button class="nav-toggle" type="button" aria-label="Menu" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
-</header>
+</nav>

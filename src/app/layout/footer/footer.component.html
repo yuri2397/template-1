@@ -1,176 +1,56 @@
-<footer class="footer-section">
+<footer class="site-footer">
   <div class="container">
-    <!-- Main Footer Content -->
-    <div class="footer-content">
-      <!-- Brand Section -->
-      <div class="footer-brand">
-        <div class="brand-info">
-          <img src="assets/img/difawma-hijab-logo.jpg" alt="Difawma Hijab" class="footer-logo">
-          <h3 class="brand-name">Difawma Hijab</h3>
-          <p class="brand-description">
-            Votre destination privilégiée pour la mode modeste et élégante.
-            Nous célébrons la beauté féminine avec respect et sophistication.
-          </p>
-        </div>
-
-        <!-- Newsletter -->
-        <div class="newsletter-section">
-          <h4 class="newsletter-title">Restez connectée</h4>
-          <p class="newsletter-description">
-            Recevez nos dernières collections et offres exclusives
-          </p>
-          <form class="newsletter-form">
-            <div class="input-group">
-              <input type="email" class="newsletter-input" placeholder="Votre adresse email" required>
-              <button type="submit" class="newsletter-btn">
-                <i class="fa fa-paper-plane"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Social Links -->
-        <div class="social-section">
-          <h4 class="social-title">Suivez-nous</h4>
-          <div class="social-links">
-            <a href="https://facebook.com" target="_blank" class="social-link facebook">
-              <i class="fa-brands fa-facebook"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" class="social-link instagram">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://whatsapp.com" target="_blank" class="social-link whatsapp">
-              <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <a href="https://tiktok.com" target="_blank" class="social-link tiktok">
-              <i class="fa-brands fa-tiktok"></i>
-            </a>
-            <!-- <a href="https://youtube.com" target="_blank" class="social-link youtube">
-              <i class="fa-brands fa-youtube"></i>
-            </a> -->
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a href="#" class="brand">
+          <svg class="brand-mark" viewBox="0 0 200 220">
+            <g transform="translate(5, 10)">
+              <path d="M 10 80 L 95 10 L 180 80" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" />
+              <rect x="28" y="80" width="134" height="26" fill="var(--accent)" />
+              <rect x="78" y="106" width="34" height="86" fill="var(--accent)" />
+              <line x1="0" y1="205" x2="190" y2="205" stroke="currentColor" stroke-width="6" stroke-linecap="square" />
+            </g>
+          </svg>
+          <div class="brand-txt">
+            <span>Thiao Family Groupe</span>
+            <span class="brand-sub">Achat · Location · Construction</span>
           </div>
-        </div>
+        </a>
+        <p>
+          Cabinet immobilier sénégalais fondé en 2007. Au service des familles, des investisseurs et
+          des institutions — à Dakar et sur toute la Petite Côte.
+        </p>
       </div>
 
-      <!-- Links Sections -->
-      <div class="footer-links">
-        <!-- Shop Links -->
-        <div class="link-group">
-          <h4 class="link-title">Boutique</h4>
-          <ul class="link-list">
-            <li><a routerLink="/catalog" class="footer-link">Tous nos produits</a></li>
-            <li><a routerLink="/catalog" [queryParams]="{category: 'hijabs'}" class="footer-link">Hijabs</a></li>
-            <li><a routerLink="/catalog" [queryParams]="{category: 'abayas'}" class="footer-link">Abayas</a></li>
-            <li><a routerLink="/catalog" [queryParams]="{category: 'turbans'}" class="footer-link">Turbans</a></li>
-            <li><a routerLink="/catalog" [queryParams]="{category: 'accessoires'}" class="footer-link">Accessoires</a>
-            </li>
-            <li><a routerLink="/catalog" [queryParams]="{sale: true}" class="footer-link">Promotions</a></li>
-          </ul>
-        </div>
+      <div class="footer-col">
+        <h4>Activités</h4>
+        <a href="#activites">Achat &amp; intermédiation</a>
+        <a href="#activites">Location courte durée</a>
+        <a href="#activites">Location longue durée</a>
+        <a href="#activites">Promotion &amp; construction</a>
+      </div>
 
-        <!-- Company Links -->
-        <div class="link-group">
-          <h4 class="link-title">Entreprise</h4>
-          <ul class="link-list">
-            <li><a routerLink="/about" class="footer-link">À propos</a></li>
-            <li><a routerLink="/contact" class="footer-link">Contact</a></li>
-            <li><a href="#" class="footer-link">Notre histoire</a></li>
-            <li><a href="#" class="footer-link">Carrières</a></li>
-            <li><a href="#" class="footer-link">Presse</a></li>
-            <li><a href="#" class="footer-link">Partenariats</a></li>
-          </ul>
-        </div>
+      <div class="footer-col">
+        <h4>Le groupe</h4>
+        <a href="#direction">Direction</a>
+        <a href="#">Équipe</a>
+        <a href="#">Carrières</a>
+        <a href="#">Presse</a>
+      </div>
 
-        <!-- Support Links -->
-        <div class="link-group">
-          <h4 class="link-title">Support</h4>
-          <ul class="link-list">
-            <li><a href="#" class="footer-link">Centre d'aide</a></li>
-            <li><a href="#" class="footer-link">Guide des tailles</a></li>
-            <li><a href="#" class="footer-link">Livraison & Retours</a></li>
-            <li><a href="#" class="footer-link">Politique de confidentialité</a></li>
-            <li><a href="#" class="footer-link">Conditions générales</a></li>
-            <li><a href="#" class="footer-link">FAQ</a></li>
-          </ul>
-        </div>
-
-        <!-- Contact Info -->
-        <div class="link-group">
-          <h4 class="link-title">Contact</h4>
-          <div class="contact-info">
-            <div class="contact-item">
-              <i class="contact-icon fa fa-map-marker"></i>
-              <div class="contact-details">
-                <span class="contact-label">Adresse</span>
-                <span class="contact-value">Dakar, Sénégal</span>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <i class="contact-icon fa fa-phone"></i>
-              <div class="contact-details">
-                <span class="contact-label">Téléphone</span>
-                <a href="tel:+221778939112" class="contact-value">+221 77 893 91 12</a>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <i class="contact-icon fa fa-envelope"></i>
-              <div class="contact-details">
-                <span class="contact-label">Email</span>
-                <a href="mailto:difawma&#64;gmail.com" class="contact-value">difawma&#64;gmail.com</a>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <i class="contact-icon fa fa-clock"></i>
-              <div class="contact-details">
-                <span class="contact-label">Horaires</span>
-                <span class="contact-value">Lun-Sam: 9h-18h</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>+221 78 123 45 67</li>
+          <li>contact&#64;thiaofamily.sn</li>
+          <li>Dakar Plateau · Rue 10</li>
+        </ul>
       </div>
     </div>
 
-    <!-- Bottom Footer -->
     <div class="footer-bottom">
-      <div class="bottom-content">
-        <!-- Copyright -->
-        <div class="copyright">
-          <p class="copyright-text">
-            © 2024 <strong>Difawma Hijab</strong>. Tous droits réservés.
-          </p>
-        </div>
-
-        <!-- Payment Methods -->
-        <!-- <div class="payment-methods">
-          <span class="payment-label">Paiements acceptés:</span>
-          <div class="payment-icons">
-            <div class="payment-icon orange-money">OM</div>
-            <div class="payment-icon free-money">FM</div>
-            <div class="payment-icon wave">WAVE</div>
-            <div class="payment-icon visa">VISA</div>
-            <div class="payment-icon mastercard">MC</div>
-          </div>
-        </div> -->
-
-        <!-- Powered By -->
-        <div class="powered-by">
-          <span class="powered-text">Développé par</span>
-          <a href="https://digita.sn" target="_blank" class="digita-link">
-            <span class="digita-name">Digita</span>
-            <i class="external-icon fa fa-external-link"></i>
-          </a>
-        </div>
-      </div>
+      <span>© {{ currentYear }} Thiao Family Groupe · Tous droits réservés</span>
+      <span>Agence certifiée · Sénégal · RCS Dakar</span>
     </div>
-  </div>
-
-  <!-- Background Decorations -->
-  <div class="footer-decorations">
-    <div class="decoration-element element-1"></div>
-    <div class="decoration-element element-2"></div>
   </div>
 </footer>
